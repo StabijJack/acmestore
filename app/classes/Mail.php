@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Classes;
-use PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\PHPMailer;
 
 class Mail
 {
@@ -9,7 +9,7 @@ class Mail
     public function __construct()
     {
         $this->mail = new PHPMailer;
-        $this->SetUp()
+        $this->SetUp();
     }
     public function setUp()
     {
@@ -21,21 +21,23 @@ class Mail
         $this->mail->Host = getenv('SMTP_HOST');
         $this->mail->Port = getenv('SMTP_PORT');
         
-        $environment = getenv(' APP_ENV');
+        $environment = getenv('APP_ENV');
         if ($environment === 'local') {$this->mail->SMTPDebug = 2;}
 
-        $this->mai->Username = getenv('MAIL_USERNAME');
-        $this->mai->Paasword = getenv('MAIL_PASSWORD');
+        $this->mail->Username = getenv('EMAIL_USERNAME');
+        $this->mail->Password = getenv('EMAIL_PASSWORD');
 
         $this->mail->isHTML(true);
         $this->mail->SingleTo = true;
 
-        $this->mail->From = getenv('ADMIN_EMAIL');
-        $this->mail->FromName = 'ACME Store';
+        $this->mail->setFrom(getenv('ADMIN_EMAIL'),getenv('APP_NAME'));
     }
     public function send($data)
     {       
         $this->mail->addAddress($data['to'], $data['name']);
         $this->mail->Subject = $data['subject'];
+        $this->mail->Body = make($data['view'], array('data' =>$data['body']));
+        
+        return $this->mail->send();
     }
 }

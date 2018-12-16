@@ -140,6 +140,7 @@ class ComposerStaticInit4699490c0ecb5c6e4672763264cabfd9
     public static $classMap = array (
         'AltoRouter' => __DIR__ . '/..' . '/altorouter/altorouter/AltoRouter.php',
         'App\\Classes\\Database' => __DIR__ . '/../..' . '/app/classes/Database.php',
+        'App\\Classes\\Mail' => __DIR__ . '/../..' . '/app/classes/Mail.php',
         'App\\Controllers\\BaseController' => __DIR__ . '/../..' . '/app/controllers/BaseController.php',
         'App\\Controllers\\IndexController' => __DIR__ . '/../..' . '/app/controllers/IndexController.php',
         'App\\RouteDispatcher' => __DIR__ . '/../..' . '/app/routing/RouteDispatcher.php',

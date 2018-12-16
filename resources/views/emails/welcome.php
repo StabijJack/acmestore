@@ -9,6 +9,6 @@
     <script src="main.js"></script>
 </head>
 <body>
-    
+    <?php echo $data ?>
 </body>
 </html>
