@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AltoRouter' => $vendorDir . '/altorouter/altorouter/AltoRouter.php',
+    'App\\Classes\\Database' => $baseDir . '/app/classes/Database.php',
     'App\\Controllers\\BaseController' => $baseDir . '/app/controllers/BaseController.php',
     'App\\Controllers\\IndexController' => $baseDir . '/app/controllers/IndexController.php',
     'App\\RouteDispatcher' => $baseDir . '/app/routing/RouteDispatcher.php',
@@ -343,6 +344,11 @@ return array(
     'Illuminate\\View\\ViewName' => $vendorDir . '/illuminate/view/ViewName.php',
     'Illuminate\\View\\ViewServiceProvider' => $vendorDir . '/illuminate/view/ViewServiceProvider.php',
     'JsonSerializable' => $vendorDir . '/nesbot/carbon/src/JsonSerializable.php',
+    'PHPMailer\\PHPMailer\\Exception' => $vendorDir . '/phpmailer/phpmailer/src/Exception.php',
+    'PHPMailer\\PHPMailer\\OAuth' => $vendorDir . '/phpmailer/phpmailer/src/OAuth.php',
+    'PHPMailer\\PHPMailer\\PHPMailer' => $vendorDir . '/phpmailer/phpmailer/src/PHPMailer.php',
+    'PHPMailer\\PHPMailer\\POP3' => $vendorDir . '/phpmailer/phpmailer/src/POP3.php',
+    'PHPMailer\\PHPMailer\\SMTP' => $vendorDir . '/phpmailer/phpmailer/src/SMTP.php',
     'Philo\\Blade\\Blade' => $vendorDir . '/philo/laravel-blade/src/Blade.php',
     'Psr\\Container\\ContainerExceptionInterface' => $vendorDir . '/psr/container/src/ContainerExceptionInterface.php',
     'Psr\\Container\\ContainerInterface' => $vendorDir . '/psr/container/src/ContainerInterface.php',
