@@ -5,7 +5,11 @@
     <div class="row expanded">
         <h2>Dashboard</h2>
 
+        {{ $beforeToken }}
+        <br />
+        {{ $afterToken }}
+        <br />
         {{ $admin }}
     </div>
 </div>
-@endsection
+@endsection 

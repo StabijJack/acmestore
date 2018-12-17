@@ -4,9 +4,15 @@
     <div class="row expanded">
         <h2>Dashboard</h2>
 
+        <?php echo e($beforeToken); ?>
+
+        <br />
+        <?php echo e($afterToken); ?>
+
+        <br />
         <?php echo e($admin); ?>
 
     </div>
 </div>
-<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?> 
 <?php echo $__env->make('admin.layout.base', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

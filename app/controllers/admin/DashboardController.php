@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Classes\Session;
+use App\Classes\CSRFToken;
 
 class DashboardController extends BaseController
 {
@@ -17,6 +18,9 @@ class DashboardController extends BaseController
         else {
             $msg='not defined';
         }
-        view('admin/dashboard',['admin'=> $msg]);
+
+        $beforeToken = CSRFToken::_token();
+        $afterToken = Session::get('token');
+        view('admin/dashboard',['admin'=> $msg, 'beforeToken'=>$beforeToken, 'afterToken'=>$afterToken]);
     }
 }
