@@ -14,10 +14,12 @@
   <?php echo $__env->make('includes.admin-sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
   <div class="off-canvas-content" data-off-canvas-content>
     <!-- Your page content lives here -->
-    <div class="title-bar">
-      <div class="title-bar-left">
-        <button class="menu-icon hide-for-large" type="button" data-open="offCanvas"></button>
-        <span class="title-bar-title"><?php echo e(getenv('APP_NAME')); ?></span>
+    <div class="admin-title-bar">
+      <div class="title-bar">
+        <div class="title-bar-left">
+          <button class="menu-icon hide-for-large" type="button" data-open="offCanvas"></button>
+          <span class="title-bar-title"><?php echo e(getenv('APP_NAME')); ?></span>
+        </div>
       </div>
     </div>
     <?php echo $__env->yieldContent('content'); ?>

@@ -1,7 +1,7 @@
 <!-- Side Menu bar -->
-<div class="off-canvas position-left reveal-for-large" id="offCanvas" data-off-canvas>
+<div class="off-canvas position-left reveal-for-large nav" id="offCanvas" data-off-canvas>
   <h3>Welcome Admin</h3>
-  <div>
+  <div class="image-holder text-center">
     <img src="/images/JackvanAmstel.jpg" alt="Jack Schneider" title="Admin">
     <p>Jack Schneider</p>
   </div>
