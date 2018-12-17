@@ -12,6 +12,11 @@
         <br />
         <?php echo e($admin); ?>
 
+        <br />
+        <?php echo e($_SERVER['REQUEST_URI']); ?>
+
+
+
     </div>
 </div>
 <?php $__env->stopSection(); ?> 

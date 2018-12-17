@@ -10,6 +10,10 @@
         {{ $afterToken }}
         <br />
         {{ $admin }}
+        <br />
+        {{ $_SERVER['REQUEST_URI'] }}
+
+
     </div>
 </div>
 @endsection 

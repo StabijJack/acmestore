@@ -5,6 +5,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Classes\Session;
 use App\Classes\CSRFToken;
+use App\classes\Redirect;
 
 class DashboardController extends BaseController
 {
@@ -21,6 +22,7 @@ class DashboardController extends BaseController
 
         $beforeToken = CSRFToken::_token();
         $afterToken = Session::get('token');
+        // Redirect::to('/');
         view('admin/dashboard',['admin'=> $msg, 'beforeToken'=>$beforeToken, 'afterToken'=>$afterToken]);
     }
 }
