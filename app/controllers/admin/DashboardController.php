@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Classes\Session;
 use App\Classes\CSRFToken;
 use App\classes\Redirect;
+use App\classes\ReQuest;
 
 class DashboardController extends BaseController
 {
@@ -24,5 +25,11 @@ class DashboardController extends BaseController
         $afterToken = Session::get('token');
         // Redirect::to('/');
         view('admin/dashboard',['admin'=> $msg, 'beforeToken'=>$beforeToken, 'afterToken'=>$afterToken]);
+    }
+    public function get()
+    {
+        $request = Request::get('post');
+        var_dump( $request );
+
     }
 }

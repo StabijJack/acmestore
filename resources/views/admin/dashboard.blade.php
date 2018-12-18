@@ -13,7 +13,11 @@
         <br />
         {{ $_SERVER['REQUEST_URI'] }}
 
-
+        <form action="/admin" method="post" enctype="multipart/form-data">
+            <input name ="product" value="testing">
+            <input type="file" name ="image">
+            <input type="submit" value="Go" name="submit">
+        </form>
     </div>
 </div>
 @endsection 
