@@ -10,6 +10,7 @@ class ProductCategoryController
     public function show()
     {
         $categories = Category::all();
+        return view('admin/products/categories',compact('categories'));
     }
     public function store()
     {
