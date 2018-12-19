@@ -17,6 +17,11 @@ function make($filename, $data)
     $content = ob_get_contents();
     ob_end_clean();
     return $content;
-
-
+}
+function slug($value){
+    //remove all characters not in this list underscore Letter number or whitespace
+    $value = preg_replace('![^'.preg_quote('_').'\pL\pN\s]+!u', '', mb_strtolower($value));
+    //replace underscore and whitespace with a dash
+    $value = preg_replace('!['.preg_quote('_').'\s]+!u', '-', $value);
+    return trim($value, '-');
 }

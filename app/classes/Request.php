@@ -18,7 +18,7 @@ class Request
     {
         $object = new static;
         $data = $object->all();
-        return $data>$key;
+        return $data->$key;
     }
     //check request availability
     public static function has($key)
