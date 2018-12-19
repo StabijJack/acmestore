@@ -28,8 +28,8 @@ class DashboardController extends BaseController
     }
     public function get()
     {
-        $request = Request::get('post');
-        var_dump( $request );
-
+        Request::refresh();
+        $data = Request::old('file','image');
+        var_dump($data);
     }
 }
