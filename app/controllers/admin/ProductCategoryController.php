@@ -19,10 +19,8 @@ class ProductCategoryController
     {
         if(Request::has('post')){
             $request = Request::get('post');
-            // $data = ValidateRequest::minLength('name', $request->name, 6);//public static
-            // $data = ValidateRequest::required('name', $request->name,true);//public static
-            // $validator = new ValidateRequest; //public not static
-            // $validator->unique('name','cothings' ,'categories');
+            $validator = new ValidateRequest;
+            $data = $validator->abide();
 
             if (CSRFToken::verifyCSRFToken($request->token)) {
                 Category::create([
