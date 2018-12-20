@@ -15,6 +15,7 @@ return array(
     'App\\Classes\\Request' => $baseDir . '/app/classes/Request.php',
     'App\\Classes\\Session' => $baseDir . '/app/classes/Session.php',
     'App\\Classes\\UploadFile' => $baseDir . '/app/classes/UploadFile.php',
+    'App\\Classes\\ValidateRequest' => $baseDir . '/app/classes/ValidateRequest.php',
     'App\\Controllers\\Admin\\DashboardController' => $baseDir . '/app/controllers/admin/DashboardController.php',
     'App\\Controllers\\Admin\\ProductCategoryController' => $baseDir . '/app/controllers/admin/ProductCategoryController.php',
     'App\\Controllers\\BaseController' => $baseDir . '/app/controllers/BaseController.php',
@@ -521,4 +522,6 @@ return array(
     'Whoops\\Util\\Misc' => $vendorDir . '/filp/whoops/src/Whoops/Util/Misc.php',
     'Whoops\\Util\\SystemFacade' => $vendorDir . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
     'Whoops\\Util\\TemplateHelper' => $vendorDir . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
+    'voku\\helper\\Paginator' => $vendorDir . '/voku/pagination/src/voku/helper/Paginator.php',
+    'voku\\helper\\PaginatorHelper' => $vendorDir . '/voku/pagination/src/voku/helper/PaginatorHelper.php',
 );
