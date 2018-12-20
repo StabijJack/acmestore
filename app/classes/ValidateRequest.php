@@ -20,7 +20,7 @@ class ValidateRequest
     public function abide(array $dataAndValues,  array $policies)
     {
         foreach($dataAndValues as $column => $value){
-            if (in_array($column,arraykeys($policies))) {
+            if (in_array($column,array_keys($policies))) {
                 self::doValidation(
                     ['column' => $column, 'value' => $value, 'policies' => $policies[$column]]
                 );
@@ -31,14 +31,16 @@ class ValidateRequest
     {
         $column = $data['column'];
         foreach($data['policies'] as $rule => $policy){
-            $valid = call_user_func_array([self::class, $rule],$column,$data['value'],$policy);
+            $valid = call_user_func_array([self::class, $rule],[$column,$data['value'],$policy]);
             if(!$valid){
                 self::setError(
                     str_replace(
                         [':attribute', ':policy', '_'],
                         [$column, $policy, ' '],
-                         self::$error_messages[$rule]), $column
-                )
+                        self::$error_messages[$rule]
+                    ),
+                    $column
+                );
             }
         }
 
@@ -80,7 +82,7 @@ class ValidateRequest
     protected static function string($column, $value, $policy)
     {
         if ($value != null && !empty(trim($value))) {
-            if(!preg_match('/^[A-Za-z ]+$/', $value)){
+            if(!preg_match('[A-Za-z ]+$/', $value)){
                 return true;
             }
         }
@@ -89,7 +91,7 @@ class ValidateRequest
     protected static function number($column, $value, $policy)
     {
         if ($value != null && !empty(trim($value))) {
-            if(!preg_match('/^[0-9.,]+$/', $value)){
+            if(!preg_match('[0-9.,]+$/', $value)){
                 return true;
             }
         }
@@ -105,7 +107,7 @@ class ValidateRequest
     }
     public function hasError()
     {
-        return count(self::error) > 0 ? true : false;
+        return count(self::$error) > 0 ? true : false;
     }
     public function getErrorMessages()
     {

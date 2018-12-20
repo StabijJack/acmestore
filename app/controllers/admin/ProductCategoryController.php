@@ -19,10 +19,21 @@ class ProductCategoryController
     {
         if(Request::has('post')){
             $request = Request::get('post');
-            $validator = new ValidateRequest;
-            $data = $validator->abide();
-
             if (CSRFToken::verifyCSRFToken($request->token)) {
+                $rules = [ 
+                    'name'=>[
+                        'required'=> true,
+                        'maxlength'=> 5,
+                        'string'=> true,
+                        'unique'=> 'categories'
+                        ]
+                    ];
+                    $validate = new ValidateRequest;
+                    $validate->abide($_POST, $rules);
+                    if ($validate->hasError())  {
+                        var_dump($validate->getErrorMessages());
+                        exit;
+                    }
                 Category::create([
                     'name'=> $request->name,
                     'slug'=> slug($request->name)
