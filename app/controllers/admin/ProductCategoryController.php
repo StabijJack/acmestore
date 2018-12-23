@@ -37,18 +37,18 @@ class ProductCategoryController
                         'minlength'=> 3,
                         'string'=> true,
                         'unique'=> 'categories'
-                        ]
-                    ];
-                    $validate = new ValidateRequest;
-                    $validate->abide($_POST, $rules);
-                    if ($validate->hasError())  {
-                        $errors = $validate->getErrorMessages();
-                        return view('admin/products/categories',[
-                            'categories' => $this->categories,
-                            'links' => $this->links,
-                            'errors' => $errors
-                        ]);
-                    }
+                    ]
+                ];
+                $validate = new ValidateRequest;
+                $validate->abide($_POST, $rules);
+                if ($validate->hasError())  {
+                    $errors = $validate->getErrorMessages();
+                    return view('admin/products/categories',[
+                        'categories' => $this->categories,
+                        'links' => $this->links,
+                        'errors' => $errors
+                    ]);
+                }
                 Category::create([
                     'name'=> $request->name,
                     'slug'=> slug($request->name)
@@ -61,6 +61,36 @@ class ProductCategoryController
                     'success' => 'Category Created'
                 ]);
                     }
+        }
+        throw new \Exception('Token mismatch');
+    }
+    public function edit($id)
+    {
+        if(Request::has('post')){
+            $request = Request::get('post');
+            if (CSRFToken::verifyCSRFToken($request->token)) {
+                $rules = [ 
+                    'name'=>[
+                        'required'=> true,
+                        'minlength'=> 3,
+                        'string'=> true,
+                        'unique'=> 'categories'
+                        ]
+                ];
+                $validate = new ValidateRequest;
+                $validate->abide($_POST, $rules);
+                if ($validate->hasError())  {
+                    $errors = $validate->getErrorMessages();
+                    header('HTTP?1.1 422 Unprocessable Entity', true, 422);
+                    echo json_encode($errors);
+                    exit;
+                }
+                Ctegory::where('id', $id)->update([
+                    'name'=> $request->name,
+                ]);
+                echo json_encode(['succes','updated successfully']);
+                exit;
+            }
         }
         throw new \Exception('Token mismatch');
     }
