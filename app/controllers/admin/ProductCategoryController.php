@@ -3,6 +3,8 @@
 namespace App\Controllers\Admin;
 
 use App\Models\Category;
+use App\Classes\Session;
+use App\Classes\Redirect;
 use App\Classes\Request;
 use App\Classes\CSRFToken;
 use App\Classes\ValidateRequest;
@@ -21,7 +23,7 @@ class ProductCategoryController
     }
     public function show()
     {
-        return view('admin/products/categories',[
+        return view('admin/product/categories',[
             'categories' => $this->categories,
             'links' => $this->links
         ]);
@@ -43,7 +45,7 @@ class ProductCategoryController
                 $validate->abide($_POST, $rules);
                 if ($validate->hasError())  {
                     $errors = $validate->getErrorMessages();
-                    return view('admin/products/categories',[
+                    return view('admin/product/categories',[
                         'categories' => $this->categories,
                         'links' => $this->links,
                         'errors' => $errors
@@ -55,7 +57,7 @@ class ProductCategoryController
                 ]);
                 $this->__construct();
                 $message = 'Category Created';
-                return view('admin/products/categories',[
+                return view('admin/product/categories',[
                     'categories' => $this->categories,
                     'links' => $this->links,
                     'success' => 'Category Created'
@@ -93,6 +95,20 @@ class ProductCategoryController
             }
         }
         throw new \Exception('Token mismatch');
+    }
+    public function delete($id)
+    {
+        if(Request::has('post')){
+            $request = Request::get('post');
+            if (CSRFToken::verifyCSRFToken($request->token)) {
+                Category::destroy($id);
+                Session::add('success', 'Category Deleted');
+                Redirect::to('/admin/product/categories');
+            }
+            else{
+                throw new \Exception('Token mismatch');
+            }
+        }
     }
     
 }

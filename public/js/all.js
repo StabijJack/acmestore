@@ -16,6 +16,22 @@ this.inputs.eq(t).attr({id:i,max:this.options.end,min:this.options.start,step:th
     };
 })();
 (function () {
+    'use strit';
+    ACMESTORE.admin.delete = function(){
+        $('table[data-form="deleteForm"]').on('click','.delete-item', function(e){
+
+            e.preventDefault();
+            var form = $(this);
+            $('#confirm').foundation('open').on('click',' #delete-btn',function(){
+                form.submit();
+            });
+            // $('#confirm').foundation('open').on('click',' #delete-btn',function(){
+            //     form.submit();
+            // });
+        });
+    };
+})();
+(function () {
     'use strict';
     ACMESTORE.admin.update = function(){
         $(".update-category").on('click', function(e){
@@ -61,6 +77,7 @@ this.inputs.eq(t).attr({id:i,max:this.options.end,min:this.options.start,step:th
                 break;
             case 'adminCategories':
                 ACMESTORE.admin.update();
+                ACMESTORE.admin.delete();
                 break;
             default:
         }
