@@ -11,12 +11,20 @@ use App\Classes\ValidateRequest;
 class ProductCategoryController
 {
     public $table_name = 'categories';
-    public function show()
+    public $categories;
+    public $links;
+    public function __construct()
     {
         $total = Category::all()->count();
         $object = new Category;
-        list($categories, $links) = paginate(3, $total, $this->table_name, $object);
-        return view('admin/products/categories',compact('categories', 'links'));
+        list($this->categories, $this->links) = paginate(3, $total, $this->table_name, $object);
+    }
+    public function show()
+    {
+        return view('admin/products/categories',[
+            'categories' => $this->categories,
+            'links' => $this->links
+        ]);
     }
     public function store()
     {
@@ -26,7 +34,7 @@ class ProductCategoryController
                 $rules = [ 
                     'name'=>[
                         'required'=> true,
-                        'maxlength'=> 5,
+                        'minlength'=> 3,
                         'string'=> true,
                         'unique'=> 'categories'
                         ]
@@ -34,17 +42,25 @@ class ProductCategoryController
                     $validate = new ValidateRequest;
                     $validate->abide($_POST, $rules);
                     if ($validate->hasError())  {
-                        var_dump($validate->getErrorMessages());
-                        exit;
+                        $errors = $validate->getErrorMessages();
+                        return view('admin/products/categories',[
+                            'categories' => $this->categories,
+                            'links' => $this->links,
+                            'errors' => $errors
+                        ]);
                     }
                 Category::create([
                     'name'=> $request->name,
                     'slug'=> slug($request->name)
                 ]);
-                $categories = Category::all();
+                $this->__construct();
                 $message = 'Category Created';
-                return view('admin/products/categories',compact('categories', 'message'));
-            }
+                return view('admin/products/categories',[
+                    'categories' => $this->categories,
+                    'links' => $this->links,
+                    'success' => 'Category Created'
+                ]);
+                    }
         }
         throw new \Exception('Token mismatch');
     }

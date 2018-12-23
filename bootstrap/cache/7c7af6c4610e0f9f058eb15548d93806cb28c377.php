@@ -4,9 +4,7 @@
     <div class="row expanded">
         <h2>Product Categories</h2>
     </div>
-        <?php if($message): ?>
-            <p><?php echo e($message); ?></p>
-        <?php endif; ?>
+    <?php echo $__env->make('includes.message', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     <div class="row expanded">
         <div class="column small-12 medium-6">
             <form action="" method="post">
