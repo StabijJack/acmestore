@@ -85,7 +85,7 @@ class ProductCategoryController
                     echo json_encode($errors);
                     exit;
                 }
-                Ctegory::where('id', $id)->update([
+                Category::where('id', $id)->update([
                     'name'=> $request->name,
                 ]);
                 echo json_encode(['succes','updated successfully']);

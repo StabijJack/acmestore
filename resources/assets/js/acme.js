@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    window.ACMESDTORE ={
+    window.ACMESTORE ={
         global: {},
         admin: {}
 

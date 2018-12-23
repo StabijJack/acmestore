@@ -2,7 +2,7 @@
     'use strict';
     $(document).foundation();
     $(document).ready(function (){
-        switch($("body").data(" page-id")){
+        switch($("body").data("page-id")){
             case 'home':
                 break;
             case 'adminCategories':
