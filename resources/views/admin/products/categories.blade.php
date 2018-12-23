@@ -1,5 +1,6 @@
 @extends('admin.layout.base')
 @section('title', 'Dashboard Categories')
+@section('data-page-id', 'adminCategories')
 @section('content')
 <div class="category">
     <div class="row expanded">

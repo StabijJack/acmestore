@@ -10,7 +10,7 @@
   <script src="https://use.fontawesome.com/3fdd20bbfc.js"></script>
 </head>
 
-<body>
+<body data-page-id="@yield('data-page-id')">
   @include('includes.admin-sidebar')
   <div class="off-canvas-content" data-off-canvas-content>
     <!-- Your page content lives here -->

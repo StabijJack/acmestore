@@ -1,4 +1,5 @@
 <?php $__env->startSection('title', 'Dashboard Categories'); ?>
+<?php $__env->startSection('data-page-id', 'adminCategories'); ?>
 <?php $__env->startSection('content'); ?>
 <div class="category">
     <div class="row expanded">
