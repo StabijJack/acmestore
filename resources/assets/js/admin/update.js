@@ -14,8 +14,8 @@
                 },
                 success: function(data){
                     var response = $.parseJSON(data);
-                    $(".notification").css("display", 'block').delay(4000).slideUp(300)
-                        .html(response.success)
+                    $(".notification").css('display', 'block').removeClass('alert')
+                    .addClass('primary').delay(4000).slideUp(300).html(response.success);
                 },
                 error: function(request, error){
                     var errors = $.parseJSON(request.responseText);
@@ -24,9 +24,10 @@
                         var li = document.createElement('li');
                         li.appendChild(document.createTextNode(value));
                         ul.appendChild(li);
-                    })
-                    $(".notification").css("display", 'block').delay(6000).slideUp(300)
-                        .html(ul)
+                    });
+                    $(".notification").css('display', 'block').removeClass('primary')
+                        .addClass('alert').delay(6000).slideUp(300)
+                        .html(ul);
                 }
             });
 

@@ -34,7 +34,7 @@ class ProductCategoryController
                 $rules = [ 
                     'name'=>[
                         'required'=> true,
-                        'minlength'=> 3,
+                        'minLength'=> 3,
                         'string'=> true,
                         'unique'=> 'categories'
                     ]
@@ -68,11 +68,11 @@ class ProductCategoryController
     {
         if(Request::has('post')){
             $request = Request::get('post');
-            if (CSRFToken::verifyCSRFToken($request->token)) {
+            if (CSRFToken::verifyCSRFToken($request->token, false)) {
                 $rules = [ 
                     'name'=>[
                         'required'=> true,
-                        'minlength'=> 3,
+                        'minLength'=> 3,
                         'string'=> true,
                         'unique'=> 'categories'
                         ]
@@ -88,7 +88,7 @@ class ProductCategoryController
                 Category::where('id', $id)->update([
                     'name'=> $request->name,
                 ]);
-                echo json_encode(['succes','updated successfully']);
+                echo json_encode(['success' => 'updated successfully']);
                 exit;
             }
         }

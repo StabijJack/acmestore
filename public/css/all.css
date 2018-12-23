@@ -3891,6 +3891,26 @@ a.thumbnail {
     font-size: 1.5rem;
     color: #0a0a0a; }
 
+.reveal {
+  border: 0;
+  border-radius: 0.5rem; }
+  .reveal:focus {
+    outline-style: none; }
+  .reveal h2 {
+    font-size: 1.5rem;
+    font-weight: 500; }
+
+.notification {
+  margin-top: 1.5rem;
+  display: none li;
+    display-list-style-type: none; }
+
+.fa-edit {
+  color: #8a6d3b; }
+
+.fa-times {
+  color: #ff0000; }
+
 .slide-in-down.mui-enter {
   transition-duration: 500ms;
   transition-timing-function: linear;
