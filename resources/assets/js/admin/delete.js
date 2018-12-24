@@ -1,5 +1,5 @@
 (function () {
-    'use strit';
+    'use strict';
     ACMESTORE.admin.delete = function(){
         $('table[data-form="deleteForm"]').on('click','.delete-item', function(e){
 

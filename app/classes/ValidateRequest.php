@@ -73,29 +73,29 @@ class ValidateRequest
     protected static function mixed($column, $value, $policy)
     {
         if ($value != null && !empty(trim($value))) {
-            if(!preg_match('/^[A-Za-z0-9 .,_~\-!@#&%\^\'\*\(\)]', $value)){
-                return true;
+            if(!preg_match('/^[A-Za-z0-9 .,_~\-!@#\&%\^\'\*\(\)]+$/', $value)){
+                return false;
             }
         }
-        return false;
+        return true;
     }
     protected static function string($column, $value, $policy)
     {
         if ($value != null && !empty(trim($value))) {
-            if(!preg_match('[A-Za-z ]', $value)){
-                return true;
+            if(!preg_match('/^[A-Za-z ]+$/', $value)){
+                return false;
             }
         }
-        return false;
+        return true;
     }
     protected static function number($column, $value, $policy)
     {
         if ($value != null && !empty(trim($value))) {
-            if(!preg_match('[0-9.,]+$/', $value)){
-                return true;
+            if(!preg_match('/^[0-9.,]+$/', $value)){
+                return false;
             }
         }
-        return false;
+        return true;
     }
     private static function setError($error, $key = null){
         if($key){

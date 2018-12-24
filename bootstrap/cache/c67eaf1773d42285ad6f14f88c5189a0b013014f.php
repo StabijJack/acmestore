@@ -85,7 +85,7 @@
                                             <form>
                                                 <div class="input-group">
                                                     <div>
-                                                        <input type="text">
+                                                        <input type="text" id="subcategory-name-<?php echo e($category['id']); ?>">
                                                         <input type="submit" class="button add-subcategory" 
                                                             id= "<?php echo e($category['id']); ?>"
                                                             data-token="<?php echo e(App\Classes\CSRFToken::_token()); ?>"

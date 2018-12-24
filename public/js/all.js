@@ -16,7 +16,45 @@ this.inputs.eq(t).attr({id:i,max:this.options.end,min:this.options.start,step:th
     };
 })();
 (function () {
-    'use strit';
+    'use strict';
+    ACMESTORE.admin.create = function(){
+        $(".add-subcategory").on('click', function(e){
+            var token =  $(this).data('token');
+            var category_id = $(this).attr('id');
+            var name = $("#subcategory-name-"+ category_id).val();
+            $.ajax({
+                type: 'POST',
+                url: '/admin/product/subcategory/create',
+                data:{
+                    token: token,
+                    name: name,
+                    category_id: category_id
+                },
+                success: function(data){
+                    var response = $.parseJSON(data);
+                    $(".notification").css('display', 'block').removeClass('alert')
+                    .addClass('primary').delay(4000).slideUp(300).html(response.success);
+                },
+                error: function(request, error){
+                    var errors = $.parseJSON(request.responseText);
+                    var ul = document.createElement('ul');
+                    $.each(errors,function(key,value){
+                        var li = document.createElement('li');
+                        li.appendChild(document.createTextNode(value));
+                        ul.appendChild(li);
+                    });
+                    $(".notification").css('display', 'block').removeClass('primary')
+                        .addClass('alert').delay(6000).slideUp(300)
+                        .html(ul);
+                }
+            });
+
+            e.preventDefault();
+        });
+    };
+})();
+(function () {
+    'use strict';
     ACMESTORE.admin.delete = function(){
         $('table[data-form="deleteForm"]').on('click','.delete-item', function(e){
 
@@ -75,6 +113,7 @@ this.inputs.eq(t).attr({id:i,max:this.options.end,min:this.options.start,step:th
             case 'adminCategories':
                 ACMESTORE.admin.update();
                 ACMESTORE.admin.delete();
+                ACMESTORE.admin.create();
                 break;
             default:
         }
