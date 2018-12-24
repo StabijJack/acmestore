@@ -9,24 +9,31 @@ use App\Classes\Request;
 use App\Classes\CSRFToken;
 use App\Classes\ValidateRequest;
 use App\Controllers\BaseController;
+use App\Models\SubCategory;
 
 
 class ProductCategoryController extends BaseController
 {
     public $table_name = 'categories';
     public $categories;
+    public $subcategories;
+    public $subcategories_links;
     public $links;
     public function __construct()
     {
         $total = Category::all()->count();
+        $subTotal = SubCategory::all()->count();
         $object = new Category;
         list($this->categories, $this->links) = paginate(3, $total, $this->table_name, $object);
+        list($this->subcategories, $this->subcategories_links) = paginate(3, $subTotal, "sub_categories", new SubCategory);
     }
     public function show()
     {
         return view('admin/product/categories',[
             'categories' => $this->categories,
-            'links' => $this->links
+            'links' => $this->links,
+            'subcategories' => $this->subcategories,
+            'subcategories_links' => $this->subcategories_links
         ]);
     }
     public function store()
@@ -49,7 +56,9 @@ class ProductCategoryController extends BaseController
                     return view('admin/product/categories',[
                         'categories' => $this->categories,
                         'links' => $this->links,
-                        'errors' => $errors
+                        'errors' => $errors,
+                        'subcategories' => $this->subcategories,
+                        'subcategories_links' => $this->subcategories_links
                     ]);
                 }
                 Category::create([
@@ -61,7 +70,9 @@ class ProductCategoryController extends BaseController
                 return view('admin/product/categories',[
                     'categories' => $this->categories,
                     'links' => $this->links,
-                    'success' => 'Category Created'
+                    'success' => 'Category Created',
+                    'subcategories' => $this->subcategories,
+                    'subcategories_links' => $this->subcategories_links
                 ]);
                     }
         }

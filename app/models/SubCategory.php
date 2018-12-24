@@ -21,7 +21,7 @@ class SubCategory extends Model
             $added = new Carbon($item->created_at);
             array_push($subcategories, [
                 'id' => $item->id,
-                'caegory_id' => $item->$category_id,
+                'category_id' => $item->category_id,
                 'name' => $item->name,
                 'slug'=> $item->slug,
                 'added'=> $added->toFormattedDateString()

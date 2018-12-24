@@ -113,6 +113,70 @@
         </div>
     </div>
 </div>
+<div class="subcategory">
+    <div class="row expanded column">
+        <h2>Subcategories</h2>
+    </div>
+    <div class="row expanded">
+        <div class="row expanded">
+            <div class="column small-12 medium-11">
+                <?php if(count($subcategories)): ?>
+                    <table class="hover" data-form='deleteForm'>
+                        <tbody>
+                            <?php $__currentLoopData = $subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr>
+                                    <td><?php echo e($subcategory['name']); ?></td>
+                                    <td><?php echo e($subcategory['slug']); ?></td>
+                                    <td><?php echo e($subcategory['added']); ?></td>
+                                    <td width="100" class="text-right">
+                                        <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" 
+                                        title="Edit a subcategory.">
+                                            <a data-open="item-subcategory-<?php echo e($subcategory['id']); ?>"><i class="fa fa-edit"></i></a>
+                                        </span>
+                                        <span style="display: inline-block" data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" 
+                                        title="Delete a subcategory.">
+                                            <form action="/admin/product/subcategory/<?php echo e($subcategory['id']); ?>/delete" method="post" class="delete-item">
+                                                <input type="hidden" name="token" value="<?php echo e(App\Classes\CSRFToken::_token()); ?>">
+                                                <button type="submit"><i class="fa fa-times delete"></i> </button>
+                                            </form>
+                                        </span>
+                                        <!-- Edit subCategory Modal -->
+                                        <div class="reveal" id="item-subcategory-<?php echo e($subcategory['id']); ?>" 
+                                            data-reveal data-close-on-click ="false" data-close-on-esc ="false"
+                                            data-animation-in="scale-in-up">
+                                            <div class="notification callout primary"></div>
+                                            <h2>Edit subCategory.</h2>
+                                            <form>
+                                                <div class="input-group">
+                                                    <input type="text" id="item-subcategory-name-<?php echo e($subcategory['id']); ?>" value="<?php echo e($subcategory['name']); ?>">
+                                                    <div>
+                                                        <input type="submit" class="button update-subcategory" 
+                                                            id= "<?php echo e($subcategory['id']); ?>"
+                                                            data-token="<?php echo e(App\Classes\CSRFToken::_token()); ?>"
+                                                            value="Update">
+                                                    </div>
+                                                </div>
+                                            </form>                                
+                                            <a href="/admin/product/categories" class="close-button" aria-label="Close modal" type="button">
+                                                <span aria-hidden="true">&times;</span>
+                                            </a>
+                                        </div>
+                                        <!-- END Edit subCategory Modal -->
+                                    </td>
+                                </tr>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </tbody>
+                    </table>
+                    <?php echo $subcategories_links; ?>
+
+                <?php else: ?>
+                    <h3>You have not created any Subcategory</h3>
+                <?php endif; ?>
+
+            </div>
+        </div>
+    </div>
+</div>
 <?php echo $__env->make('includes.delete-modal', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>  
 <?php echo $__env->make('admin.layout.base', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
