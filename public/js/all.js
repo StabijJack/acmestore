@@ -25,9 +25,6 @@ this.inputs.eq(t).attr({id:i,max:this.options.end,min:this.options.start,step:th
             $('#confirm').foundation('open').on('click',' #delete-btn',function(){
                 form.submit();
             });
-            // $('#confirm').foundation('open').on('click',' #delete-btn',function(){
-            //     form.submit();
-            // });
         });
     };
 })();

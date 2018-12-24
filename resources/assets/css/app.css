@@ -3891,19 +3891,23 @@ a.thumbnail {
     font-size: 1.5rem;
     color: #0a0a0a; }
 
+h2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-top: 0.8rem;
+  margin-bottom: 1.2rem; }
+
 .reveal {
   border: 0;
   border-radius: 0.5rem; }
   .reveal:focus {
     outline-style: none; }
-  .reveal h2 {
-    font-size: 1.5rem;
-    font-weight: 500; }
 
 .notification {
   margin-top: 1.5rem;
-  display: none li;
-    display-list-style-type: none; }
+  display: none; }
+  .notification li {
+    list-style-type: none; }
 
 .fa-edit {
   color: #8a6d3b; }

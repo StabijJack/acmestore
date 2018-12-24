@@ -8,9 +8,6 @@
             $('#confirm').foundation('open').on('click',' #delete-btn',function(){
                 form.submit();
             });
-            // $('#confirm').foundation('open').on('click',' #delete-btn',function(){
-            //     form.submit();
-            // });
         });
     };
 })();

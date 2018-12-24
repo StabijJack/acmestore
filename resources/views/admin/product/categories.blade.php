@@ -3,7 +3,7 @@
 @section('data-page-id', 'adminCategories')
 @section('content')
 <div class="category">
-    <div class="row expanded">
+    <div class="row expanded column">
         <h2>Product Categories</h2>
     </div>
     @include('includes.message')

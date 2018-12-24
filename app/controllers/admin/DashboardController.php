@@ -13,7 +13,6 @@ class DashboardController extends BaseController
     public function show()
     {
         Session::add('Admin', 'You are welcome');
-        Session::remove('Admin');
         if (Session::has('Admin')){
             $msg = Session::get('Admin');
         }
@@ -21,10 +20,7 @@ class DashboardController extends BaseController
             $msg='not defined';
         }
 
-        $beforeToken = CSRFToken::_token();
-        $afterToken = Session::get('token');
-        // Redirect::to('/');
-        view('admin/dashboard',['admin'=> $msg, 'beforeToken'=>$beforeToken, 'afterToken'=>$afterToken]);
+        view('admin.dashboard',['admin'=> $msg]);
     }
     public function get()
     {

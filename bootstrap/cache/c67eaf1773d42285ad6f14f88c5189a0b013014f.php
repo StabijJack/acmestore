@@ -2,7 +2,7 @@
 <?php $__env->startSection('data-page-id', 'adminCategories'); ?>
 <?php $__env->startSection('content'); ?>
 <div class="category">
-    <div class="row expanded">
+    <div class="row expanded column">
         <h2>Product Categories</h2>
     </div>
     <?php echo $__env->make('includes.message', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,17 +1,20 @@
+h2{
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-top: 0.8rem;
+    margin-bottom: 1.2rem;
+}
+
 .reveal{
     border:0;
     border-radius: 0.5rem;
     &:focus{
         outline-style: none;
     }
-    h2{
-        font-size: 1.5rem;
-        font-weight: 500;
-    }
 }
 .notification{
     margin-top: 1.5rem;
-    display: none
+    display: none;
     li{
     list-style-type: none;
     }

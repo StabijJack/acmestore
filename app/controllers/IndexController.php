@@ -7,7 +7,7 @@ class IndexController extends BaseController
 {
     public function show()
     {
-        // echo "Inside HomePage from  Controller class";
+        echo "Inside HomePage from  Controller class";
 
         // $mail = new Mail;
         // $data = [
