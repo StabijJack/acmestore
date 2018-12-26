@@ -30,6 +30,7 @@
                         <select name="category" id="product-category">
                             <option value="{{ \App\Classes\Request::old('post', 'category')?:"" }}">
                             {{ \App\Classes\Request::old('post', 'category')?:"Select Category" }}
+                            </option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
@@ -38,8 +39,11 @@
                 </div>
                 <div class="small-12 medium-6 column">
                     <label>Product SubCategory: 
-                        <input type="text" name="name" placeholder="Product name" 
-                    value="{{ \App\Classes\Request::old('post', 'name') }}">
+                        <select name="subcategory" id="product-subcategory">
+                            <option value="{{ \App\Classes\Request::old('post', 'subcategory')?:"" }}">
+                            {{ \App\Classes\Request::old('post', 'subcategory')?:"Select Subcategory" }}
+                            </option>
+                        </select>
                     </label>
                 </div>
             </div>

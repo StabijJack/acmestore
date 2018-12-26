@@ -5,6 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch dashboard",
+            "type": "firefox",
+            "request": "launch",
+            "reAttach": true,
+            "url": "http://acme/admin",
+            "webRoot": "${workspaceFolder}/public"
+        },
+        {
             "name": "Listen for XDebug",
             "type": "php",
             "request": "launch",

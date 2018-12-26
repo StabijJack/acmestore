@@ -68,6 +68,36 @@ this.inputs.eq(t).attr({id:i,max:this.options.end,min:this.options.start,step:th
 })();
 (function () {
     'use strict';
+    ACMESTORE.admin.changeEvent = function(){
+        $('#product-category').on('change', function() {
+            var category_id = $('#product-category' + ' option:selected').val();
+            $('#product-subcategory').html('Select Subcategory');
+            $.ajax({
+                type: 'GET',
+                url: '/admin/category/' + category_id  + "/selected",
+                data:{
+                    category_id: category_id
+                },
+                success: function(response){
+                    var subcategories = $.parseJSON(response);
+                    if(subcategories.length){
+                        $.each(subcategories, function (key, value) {
+                            $('#product-subcategory').append(
+                                '<option values="' + value.id +'">' + value.name + '</option>'
+                            );
+                        })
+                        }
+                        else {
+                            $('#product-subcategory').append(
+                                '<option values="">No record found.</option>');
+                    }
+                }
+            });
+        }) 
+    }
+})();
+(function () {
+    'use strict';
     ACMESTORE.admin.update = function(){
         $(".update-category").on('click', function(e){
             var token =  $(this).data('token');
@@ -147,6 +177,9 @@ this.inputs.eq(t).attr({id:i,max:this.options.end,min:this.options.start,step:th
     $(document).ready(function (){
         switch($("body").data("page-id")){
             case 'home':
+                break;
+            case 'adminProduct':
+                ACMESTORE.admin.changeEvent();
                 break;
             case 'adminCategories':
                 ACMESTORE.admin.update();

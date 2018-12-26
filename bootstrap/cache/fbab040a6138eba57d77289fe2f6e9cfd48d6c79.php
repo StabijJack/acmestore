@@ -30,6 +30,7 @@
                             <option value="<?php echo e(\App\Classes\Request::old('post', 'category')?:""); ?>">
                             <?php echo e(\App\Classes\Request::old('post', 'category')?:"Select Category"); ?>
 
+                            </option>
                             <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <option value="<?php echo e($category->id); ?>"><?php echo e($category->name); ?></option>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -38,8 +39,12 @@
                 </div>
                 <div class="small-12 medium-6 column">
                     <label>Product SubCategory: 
-                        <input type="text" name="name" placeholder="Product name" 
-                    value="<?php echo e(\App\Classes\Request::old('post', 'name')); ?>">
+                        <select name="subcategory" id="product-subcategory">
+                            <option value="<?php echo e(\App\Classes\Request::old('post', 'subcategory')?:""); ?>">
+                            <?php echo e(\App\Classes\Request::old('post', 'subcategory')?:"Select Subcategory"); ?>
+
+                            </option>
+                        </select>
                     </label>
                 </div>
             </div>

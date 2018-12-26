@@ -71,7 +71,7 @@ class ProductController extends BaseController
                     }
         }
         throw new \Exception('Token mismatch');
-    }
+    }   
     public function edit($id)
     {
         if(Request::has('post')){
@@ -122,5 +122,9 @@ class ProductController extends BaseController
             }
         }
     }
-    
+    public function getSubcategories($id)
+    {
+        $subcategories = SubCategory::where('category_id', $id)->get();
+        echo json_encode($subcategories);
+    }
 }
