@@ -16,42 +16,42 @@ class SubCategoryController extends BaseController
 {
     public function store()
     {
-        if(Request::has('post')){
+        if (Request::has('post')) {
             $request = Request::get('post');
-            $extra_errors =[];
+            $extra_errors = [];
             if (CSRFToken::verifyCSRFToken($request->token, false)) {
-                $rules = [ 
-                    'name'=>[
-                        'required'=> true,
-                        'minLength'=> 3,
-                        'string'=> true
+                $rules = [
+                    'name' => [
+                        'required' => true,
+                        'minLength' => 3,
+                        'string' => true
                     ],
-                    'category_id' =>['required' => true]
+                    'category_id' => ['required' => true]
                 ];
                 $validate = new ValidateRequest;
                 $validate->abide($_POST, $rules);
 
-                $duplicate_subcategory = SubCategory::where('name' , $request->name)
-                    ->where('category_id',$request->category_id)->exists();
-                if ($duplicate_subcategory ) {
+                $duplicate_subcategory = SubCategory::where('name', $request->name)
+                    ->where('category_id', $request->category_id)->exists();
+                if ($duplicate_subcategory) {
                     $extra_errors['name'] = array('Subcategory already exists.');
                 }
 
                 $category = Category::where('id', $request->category_id)->exists();
-                if(!$category){
+                if (!$category) {
                     $extra_errors['name'] = array('invalid ProductCategory.');
                 }
 
-                if ($validate->hasError() || $duplicate_subcategory || !$category)  {
+                if ($validate->hasError() || $duplicate_subcategory || !$category) {
                     $errors = $validate->getErrorMessages();
-                    count($extra_errors) ? $response = array_merge($errors, $extra_errors) :$response = $errors;
-                        header('HTTP?1.1 422 Unprocessable Entity', true, 422);
-                        echo json_encode($response);
-                        exit;
+                    count($extra_errors) ? $response = array_merge($errors, $extra_errors) : $response = $errors;
+                    header('HTTP?1.1 422 Unprocessable Entity', true, 422);
+                    echo json_encode($response);
+                    exit;
                 }
                 SubCategory::create([
-                    'name'=> $request->name,
-                    'slug'=> slug($request->name),
+                    'name' => $request->name,
+                    'slug' => slug($request->name),
                     'category_id' => $request->category_id
                 ]);
                 echo json_encode(['success' => 'Subcategory created successfully.']);
@@ -61,49 +61,65 @@ class SubCategoryController extends BaseController
         }
         return null;
     }
+
     public function edit($id)
     {
-        if(Request::has('post')){
+        if (Request::has('post')) {
             $request = Request::get('post');
+            $extra_errors = [];
             if (CSRFToken::verifyCSRFToken($request->token, false)) {
-                $rules = [ 
-                    'name'=>[
-                        'required'=> true,
-                        'minLength'=> 3,
-                        'string'=> true,
-                        'unique'=> 'categories'
-                        ]
+                $rules = [
+                    'name' => [
+                        'required' => true,
+                        'minLength' => 3,
+                        'string' => true
+                    ],
+                    'category_id' => ['required' => true]
                 ];
                 $validate = new ValidateRequest;
                 $validate->abide($_POST, $rules);
-                if ($validate->hasError())  {
+
+                $duplicate_subcategory = SubCategory::where('name', $request->name)
+                    ->where('category_id', $request->category_id)->exists();
+                if ($duplicate_subcategory) {
+                    $extra_errors['name'] = array('You made not any changes');
+                }
+
+                $category = Category::where('id', $request->category_id)->exists();
+                if (!$category) {
+                    $extra_errors['name'] = array('invalid ProductCategory.');
+                }
+
+                if ($validate->hasError() || $duplicate_subcategory || !$category) {
                     $errors = $validate->getErrorMessages();
+                    count($extra_errors) ? $response = array_merge($errors, $extra_errors) : $response = $errors;
                     header('HTTP?1.1 422 Unprocessable Entity', true, 422);
-                    echo json_encode($errors);
+                    echo json_encode($response);
                     exit;
                 }
-                Category::where('id', $id)->update([
-                    'name'=> $request->name,
+                SubCategory::where('id', $id)->update([
+                    'name' => $request->name,
+                    'category_id' => $request->category_id
                 ]);
-                echo json_encode(['success' => 'updated successfully']);
+                echo json_encode(['success' => 'Subcatagory updated successfully']);
                 exit;
             }
+            throw new \Exception('Token mismatch');
         }
-        throw new \Exception('Token mismatch');
     }
+
     public function delete($id)
     {
-        if(Request::has('post')){
+        if (Request::has('post')) {
             $request = Request::get('post');
             if (CSRFToken::verifyCSRFToken($request->token)) {
                 Category::destroy($id);
                 Session::add('success', 'Category Deleted');
                 Redirect::to('/admin/product/categories');
-            }
-            else{
+            } else {
                 throw new \Exception('Token mismatch');
             }
         }
     }
-    
+
 }
