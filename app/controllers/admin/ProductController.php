@@ -14,7 +14,7 @@ use App\Models\SubCategory;
 
 class ProductController extends BaseController
 {
-    public $table_name = 'categories';
+    public $table_name = 'products';
     public $categories;
     public $subcategories;
     public $subcategories_links;
@@ -39,20 +39,51 @@ class ProductController extends BaseController
                     'name'=>[
                         'required'=> true,
                         'minLength'=> 3,
+                        'maxLength'=> 70,
                         'string'=> true,
-                        'unique'=> 'categories'
+                        'unique'=> $this->table_name
+                    ],
+                    'price'=>[
+                        'required'=> true,
+                        'minLength'=> 2,
+                        'number'=> true,
+                    ],
+                    'quantity'=>[
+                        'required'=> true
+                    ],
+                    'category'=>[
+                        'required'=> true
+                    ],
+                    'subcategory'=>[
+                        'required'=> true
+                    ],
+                    'description'=>[
+                        'required'=> true,
+                        'mixed'=>true,
+                        'minLength'=> 4,
+                        'maxLength'=> 500
                     ]
                 ];
                 $validate = new ValidateRequest;
                 $validate->abide($_POST, $rules);
+
+                $file = Request::get('file');
+                $filename = $file->productImage->name;
+                if(empty($file->productImage->name)){
+                    $file_error['productImage'] = ['The productImage is required' ];
+                }
+                else{
+                    if(!UploadFile::isImage($filename)){
+                        $file_error['productImage'] = ['The Image is invalid, please try again.' ];
+                    }
+                }
+
                 if ($validate->hasError())  {
-                    $errors = $validate->getErrorMessages();
+                    $response = $validate->getErrorMessages();
+                    count($file_error)? $errors = array_merge($response,$file_error) : $errors = $response;
                     return view('admin/product/categories',[
                         'categories' => $this->categories,
-                        'links' => $this->links,
                         'errors' => $errors,
-                        'subcategories' => $this->subcategories,
-                        'subcategories_links' => $this->subcategories_links
                     ]);
                 }
                 Category::create([
