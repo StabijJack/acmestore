@@ -20,13 +20,13 @@ class UploadFile
             $name = pathinfo($file, PATHINFO_FILENAME);
         }
         $name = strtolower(str_replace(['_', ' '], '-', $name));
-        $hash - md5(microtime());
+        $hash = md5(microtime());
         $ext = $this->fileExtension($file);
         $this->filename = "{$name}-{$hash}.{$ext}";
     }
     protected function fileExtension($file)
     {
-        return $this->extension = pathinfo($flie,PATHINFO_EXTENSION);
+        return $this->extension = pathinfo($file,PATHINFO_EXTENSION);
     }
     public static function fileSize($file)
     {
@@ -47,7 +47,7 @@ class UploadFile
     {   
         return $this->path;
     }
-    public static function move($temp_path,$folder,$file, $new_filename)
+    public static function move($temp_path,$folder,$file, $new_filename = '')
     {
         $fileObj = new static;
         $ds = DIRECTORY_SEPARATOR;

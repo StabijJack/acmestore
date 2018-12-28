@@ -9,7 +9,7 @@
         </div>
     </div>
     <?php echo $__env->make('includes.message', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-    <form action="/admin/product/create" method="post">
+    <form action="/admin/product/create" method="post" enctype="multipart/form-data">
         <div class="small-12 medium-11">
             <div class="row expanded">
                 <div class="small-12 medium-6 column">

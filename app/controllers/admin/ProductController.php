@@ -10,6 +10,8 @@ use App\Classes\CSRFToken;
 use App\Classes\ValidateRequest;
 use App\Controllers\BaseController;
 use App\Models\SubCategory;
+use App\Classes\UploadFile;
+use App\Models\Product;
 
 
 class ProductController extends BaseController
@@ -68,8 +70,9 @@ class ProductController extends BaseController
                 $validate->abide($_POST, $rules);
 
                 $file = Request::get('file');
-                $filename = $file->productImage->name;
-                if(empty($file->productImage->name)){
+                isset($file->productImage->name)? $filename = $file->productImage->name:$filename = '';
+                $file_error =[];
+                if(empty(filename)){
                     $file_error['productImage'] = ['The productImage is required' ];
                 }
                 else{
@@ -80,28 +83,33 @@ class ProductController extends BaseController
 
                 if ($validate->hasError())  {
                     $response = $validate->getErrorMessages();
-                    count($file_error)? $errors = array_merge($response,$file_error) : $errors = $response;
-                    return view('admin/product/categories',[
+                    count($file_error)? $errors = array_merge($response, $file_error) : $errors = $response;
+                    return view('admin/product/create',[
                         'categories' => $this->categories,
                         'errors' => $errors,
                     ]);
                 }
-                Category::create([
+                $ds = DIRECTORY_SEPARATOR;
+                $temp_file = $file->productImage->tmp_name;
+                $image_path = UploadFile::move($temp_file,"images{$ds}uploads{$ds}products",$filename)->path();
+                Product::create([
                     'name'=> $request->name,
-                    'slug'=> slug($request->name)
+                    'description'=> $request->description,
+                    'price'=> $request->price,
+                    'category_id'=> $request->category,
+                    'sub_category_id'=> $request->subcategory,
+                    'image_path'=> $image_path,
+                    'quantity'=> $request->quantity,
                 ]);
-                $this->__construct();
-                $message = 'Category Created';
-                return view('admin/product/categories',[
+                Request::refresh();
+                return view('admin/product/create',[
                     'categories' => $this->categories,
-                    'links' => $this->links,
-                    'success' => 'Category Created',
-                    'subcategories' => $this->subcategories,
-                    'subcategories_links' => $this->subcategories_links
+                    'success'  => 'Record Created'
                 ]);
-                    }
+            }
+            throw new \Exception('Token mismatch');
         }
-        throw new \Exception('Token mismatch');
+        return null;
     }   
     public function edit($id)
     {

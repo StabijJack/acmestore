@@ -15,13 +15,13 @@
                     if(subcategories.length){
                         $.each(subcategories, function (key, value) {
                             $('#product-subcategory').append(
-                                '<option values="' + value.id +'">' + value.name + '</option>'
+                                '<option value="' + value.id +'">' + value.name + '</option>'
                             );
                         })
                         }
                         else {
                             $('#product-subcategory').append(
-                                '<option values="">No record found.</option>');
+                                '<option value="">No record found.</option>');
                     }
                 }
             });
