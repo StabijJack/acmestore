@@ -28,5 +28,7 @@ $router->map('POST','/admin/product/create',
 'App\Controllers\Admin\ProductController@store','create_product');
 $router->map('GET','/admin/products',
 'App\Controllers\Admin\ProductController@show','show_products');
-// $router->map('GET','/admin/product/[i:id]/edit',
-// 'App\Controllers\Admin\ProductController@edit','edit_product');
+$router->map('GET','/admin/product/[i:id]/edit',
+'App\Controllers\Admin\ProductController@showEditProductForm','edit_product_form');
+$router->map('POST','/admin/product/edit',
+'App\Controllers\Admin\ProductController@edit','edit_product');
