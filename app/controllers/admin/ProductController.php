@@ -19,8 +19,6 @@ class ProductController extends BaseController
     public $table_name = 'products';
     public $products;
     public $categories;
-    public $subcategories;
-    public $subcategories_links;
     public $links;
     public function __construct()
     {
@@ -34,7 +32,7 @@ class ProductController extends BaseController
         $links = $this->links;
         return view('admin/product/inventory',compact('products', 'links'));
     }
-    public function showCreatePruductForm()
+    public function showCreateProductForm()
     {
         $categories = $this->categories;
         return view('admin/product/create',compact('categories'));

@@ -23,7 +23,7 @@ $router->map('POST','/admin/product/subcategory/[i:id]/delete',
 $router->map('GET','/admin/category/[i:id]/selected',
 'App\Controllers\Admin\ProductController@getSubcategories','selected_category');
 $router->map('GET','/admin/product/create',
-'App\Controllers\Admin\ProductController@showCreatePruductForm','create_product_form');
+'App\Controllers\Admin\ProductController@showCreateProductForm','create_product_form');
 $router->map('POST','/admin/product/create',
 'App\Controllers\Admin\ProductController@store','create_product');
 $router->map('GET','/admin/products',
