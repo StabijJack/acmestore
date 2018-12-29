@@ -12,6 +12,15 @@ class Product extends Model
     public $timestamps = true;
     protected $fillable = ['name', 'price','description','category_id', 'sub_category_id','image_path', 'quantity' ];
     protected $dates = ['deleted_at'];
+    
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+    public function subCategory()
+    {
+        return $this->belongsTo(SubCategory::class);
+    }
 
     public function transform($data)
     {
