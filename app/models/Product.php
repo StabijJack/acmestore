@@ -23,6 +23,7 @@ class Product extends Model
                 'id' => $item->id,
                 'name' => $item->name,
                 'price'=> $item->price,
+                'quantity'=> $item->quantity,
                 'description'=> $item->description,
                 'category_id'=> $item->category_id,
                 'category_name'=> Category::where('id', $item->category_id)->first()->name,
