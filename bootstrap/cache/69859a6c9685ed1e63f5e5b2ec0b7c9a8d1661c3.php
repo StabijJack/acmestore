@@ -1,5 +1,6 @@
-<?php $__env->startSection('title', 'Edit Product'); ?>
-<?php $__env->startSection('data-page-id', 'adminProduct'); ?>
+ 
+<?php $__env->startSection('title', 'Edit Product'); ?> 
+<?php $__env->startSection('data-page-id', 'adminProduct'); ?> 
 <?php $__env->startSection('content'); ?>
 <div class="add-product">
     <div class="row expanded">
@@ -71,14 +72,29 @@
                     <label>Description:
                         <textarea name="description" ><?php echo e($product->description); ?></textarea>
                     </label>
-                    <input type="hidden" name="token" value= "<?php echo e(\App\Classes\CSRFToken::_token()); ?>">
-                    <input type="hidden" name="product_id" value= "<?php echo e($product->id); ?>">
+                    <input type="hidden" name="token" value="<?php echo e(\App\Classes\CSRFToken::_token()); ?>">
+                    <input type="hidden" name="product_id" value="<?php echo e($product->id); ?>">
                     <input class="button warning float-right" type="submit" value="Update Product">
                 </div>
             </div>
         </div>
     </form>
+    
+    <div class="row expanded">
+        <div class="small-12 medium-11">
+            <table data-form="deleteForm">
+                <tr>
+                    <td>
+                        <form action="/admin/product/<?php echo e($product->id); ?>/delete" method="post" class="delete-item">
+                            <input type="hidden" name="token" value="<?php echo e(App\Classes\CSRFToken::_token()); ?>">
+                            <button type="submit" class="button alert">Delete Product</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
-<?php echo $__env->make('includes.delete-modal', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-<?php $__env->stopSection(); ?>  
+    <?php echo $__env->make('includes.delete-modal', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__env->stopSection(); ?>
 <?php echo $__env->make('admin.layout.base', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

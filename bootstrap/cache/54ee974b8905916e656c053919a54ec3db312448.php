@@ -47,7 +47,7 @@
                         <td><?php echo e($product['added']); ?></td>
                         <td width="70" class="text-right">
                             <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Edit a product.">
-                                <a href="/admin/product/<?php echo e($product['id']); ?>/edit"><i class="fa fa-edit"></i></a>
+                                <a href="/admin/product/<?php echo e($product['id']); ?>/edit">Edit<i class="fa fa-edit"></i></a>
                             </span>
                         </td>
                     </tr>

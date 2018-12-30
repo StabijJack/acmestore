@@ -1,6 +1,6 @@
-@extends('admin.layout.base')
-@section('title', 'Edit Product')
-@section('data-page-id', 'adminProduct')
+@extends('admin.layout.base') 
+@section('title', 'Edit Product') 
+@section('data-page-id', 'adminProduct') 
 @section('content')
 <div class="add-product">
     <div class="row expanded">
@@ -69,13 +69,28 @@
                     <label>Description:
                         <textarea name="description" >{{ $product->description }}</textarea>
                     </label>
-                    <input type="hidden" name="token" value= "{{ \App\Classes\CSRFToken::_token() }}">
-                    <input type="hidden" name="product_id" value= "{{ $product->id }}">
+                    <input type="hidden" name="token" value="{{ \App\Classes\CSRFToken::_token() }}">
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
                     <input class="button warning float-right" type="submit" value="Update Product">
                 </div>
             </div>
         </div>
     </form>
+    {{-- Delete Button --}}
+    <div class="row expanded">
+        <div class="small-12 medium-11">
+            <table data-form="deleteForm">
+                <tr>
+                    <td>
+                        <form action="/admin/product/{{ $product->id }}/delete" method="post" class="delete-item">
+                            <input type="hidden" name="token" value="{{ App\Classes\CSRFToken::_token() }}">
+                            <button type="submit" class="button alert">Delete Product</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
-@include('includes.delete-modal')
-@endsection  
+    @include('includes.delete-modal')
+@endsection
