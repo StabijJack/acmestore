@@ -1,0 +1,15 @@
+.home{
+    padding-top: 4.65rem;
+    @include breakpoint(small only){
+        padding-top: 2rem;
+    }
+    .hero{
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .hero-slider{
+        img{
+            width: 100% !important;
+        }
+    }
+}

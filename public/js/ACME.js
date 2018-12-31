@@ -2,9 +2,23 @@
     'use strict';
     window.ACMESTORE ={
         global: {},
-        admin: {}
-
+        admin: {},
+        homeslider:{}
     };
+})();
+(function(){
+    'use strict';
+    ACMESTORE.homeslider.initCarousel = function(){
+        $('.hero-slider').slick({
+            slidesToShow: 1,
+            autoplay: true,
+            arrows: false,
+            dots: false,
+            fad: true,
+            autoplayHoverPause: true,
+            slideToScroll: 1
+        });
+    }
 })();
 (function () {
     'use strict';
@@ -168,6 +182,7 @@
     $(document).ready(function (){
         switch($("body").data("page-id")){
             case 'home':
+                ACMESTORE.homeslider.initCarousel();
                 break;
             case 'adminProduct':
                 ACMESTORE.admin.changeEvent();

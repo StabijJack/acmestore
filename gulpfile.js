@@ -31,6 +31,7 @@ elixir(function (mix) {
     mix.scripts(
         [
             'js/acme.js',
+            'js/pages/*.js',
             'js/admin/*.js',
             'js/init.js'
         ], 'public/js/ACME.js', 'resources/assets');
