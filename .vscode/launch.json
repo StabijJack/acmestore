@@ -10,7 +10,7 @@
             "request": "launch",
             "reAttach": true,
             "skipFiles": ["${workspaceFolder}/public/js/all.js"],
-            "url": "http://acme/admin",
+            "url": "http://acme.nl",
             "webRoot": "${workspaceFolder}/public"
         },
         {
