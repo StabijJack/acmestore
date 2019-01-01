@@ -21,7 +21,7 @@
                         </div>
                         <div class="card-section">
                             <p>
-                                @{{ feature.name }}
+                                @{{ stringLimit(feature.name, 18) }}
                             </p>
                             <a :href="'/product/' + feature.id" class="button more expanded">
                             see More

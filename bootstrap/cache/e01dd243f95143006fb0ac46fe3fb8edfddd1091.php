@@ -21,13 +21,13 @@
                         </div>
                         <div class="card-section">
                             <p>
-                                {{ feature.name }}
+                                {{ stringLimit(feature.name, 18) }}
                             </p>
                             <a :href="'/product/' + feature.id" class="button more expanded">
                             see More
                         </a>
                             <a :href="'/product/' + feature.id" class="button cart expanded">
-                            $ {{ feature.price }} -Add to cart
+                            $ {{ feature.price }} - Add to cart
                         </a>
                         </div>
                     </div>
