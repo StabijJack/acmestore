@@ -8,6 +8,29 @@
 })();
 (function(){
     'use strict';
+    ACMESTORE.homeslider.homePageProducts = function(){
+        var app = new Vue({
+            el: '#root',
+            data: {
+                featured:[],
+                loading: false
+            },
+            methods:{
+                getFeaturedProducts: function (){
+                    this.loading = true;
+                    axios.get('/featured').then(function(response){
+                        console.log(response.data);
+                    })
+                }
+            },
+            created: function(){
+                this.getFeaturedProducts();
+            }
+        });
+    }
+})();
+(function(){
+    'use strict';
     ACMESTORE.homeslider.initCarousel = function(){
         $('.hero-slider').slick({
             slidesToShow: 1,
@@ -183,6 +206,7 @@
         switch($("body").data("page-id")){
             case 'home':
                 ACMESTORE.homeslider.initCarousel();
+                ACMESTORE.homeslider.homePageProducts();
                 break;
             case 'adminProduct':
                 ACMESTORE.admin.changeEvent();
