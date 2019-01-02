@@ -1,7 +1,7 @@
-@extends('layouts.app') 
-@section('title', 'Homepage') 
-@section('data-page-id', 'home') 
-@section('content')
+ 
+<?php $__env->startSection('title', 'Homepage'); ?> 
+<?php $__env->startSection('data-page-id', 'home'); ?> 
+<?php $__env->startSection('content'); ?>
 <div class="home">
     <section class="hero">
         <div class="hero-slider">
@@ -21,13 +21,13 @@
                         </div>
                         <div class="card-section">
                             <p>
-                                @{{ stringLimit(feature.name, 18) }}
+                                {{ stringLimit(feature.name, 18) }}
                             </p>
                             <a :href="'/product/' + feature.id" class="button more expanded">
                             see More
                         </a>
                             <a :href="'/product/' + feature.id" class="button cart expanded">
-                            $ @{{ feature.price }} - Add to cart
+                            $ {{ feature.price }} - Add to cart
                         </a>
                         </div>
                     </div>
@@ -44,13 +44,13 @@
                         </div>
                         <div class="card-section">
                             <p>
-                                @{{ stringLimit(product.name, 18) }}
+                                {{ stringLimit(product.name, 18) }}
                             </p>
                             <a :href="'/product/' + product.id" class="button more expanded">
                             see More
                         </a>
                             <a :href="'/product/' + product.id" class="button cart expanded">
-                            $ @{{ product.price }} - Add to cart
+                            $ {{ product.price }} - Add to cart
                         </a>
                         </div>
                     </div>
@@ -59,4 +59,5 @@
         </div>
     </section>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>

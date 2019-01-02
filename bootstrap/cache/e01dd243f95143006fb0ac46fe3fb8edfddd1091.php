@@ -14,10 +14,10 @@
         <div class="row medium-up-4">
             <h2>Featured Products</h2>
             <div class="small-12 column" v-for="feature in featured">
-                <a href="'/product/' + feature.id">
+                <a :href="'/product/' + feature.id">
                     <div class="card" data-equalizer-watch>
                         <div class="card-section">
-                            <img :src="'/' + feature.image_path" width="100%" height="200">
+                            <img :src="'/' + feature.image_path" >
                         </div>
                         <div class="card-section">
                             <p>
@@ -28,6 +28,29 @@
                         </a>
                             <a :href="'/product/' + feature.id" class="button cart expanded">
                             $ {{ feature.price }} - Add to cart
+                        </a>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="row medium-up-4">
+            <h2>Products Picks</h2>
+            <div class="small-12 column" v-for="product in products">
+                <a href="'/product/' + product.id">
+                    <div class="card" data-equalizer-watch>
+                        <div class="card-section">
+                            <img :src="'/' + product.image_path" >
+                        </div>
+                        <div class="card-section">
+                            <p>
+                                {{ stringLimit(product.name, 18) }}
+                            </p>
+                            <a :href="'/product/' + product.id" class="button more expanded">
+                            see More
+                        </a>
+                            <a :href="'/product/' + product.id" class="button cart expanded">
+                            $ {{ product.price }} - Add to cart
                         </a>
                         </div>
                     </div>
