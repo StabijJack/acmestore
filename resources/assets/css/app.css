@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url(https://fonts.googleapis.com/css?family=Railway:300,400,600);
+@import url("https://fonts.googleapis.com/css?family=Fjalla+One|Average");
 /**
  * Foundation for Sites by ZURB
  * Version 6.3.1
@@ -3865,7 +3865,30 @@ html, body {
   line-height: 1.5;
   padding: 0;
   margin: 0;
-  font-family: "Open Sans", sans-serif; }
+  font-family: 'Average', serif; }
+
+h2 {
+  font-family: 'Fjalla One', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 1.6rem;
+  padding: 0 1rem 1rem 1rem;
+  font-weight: 500; }
+  @media screen and (min-width: 40em) and (max-width: 63.9375em) {
+    h2 {
+      font-size: 1.8rem; } }
+  @media print, screen and (min-width: 64em) {
+    h2 {
+      font-size: 2rem; } }
+
+p {
+  font-family: 'Average', serif;
+  font-size: 1.2rem; }
+  @media screen and (min-width: 40em) and (max-width: 63.9375em) {
+    p {
+      font-size: 1rem; } }
+
+[v-cloak] .v-cloak--hidden {
+  display: none; }
 
 .site_wrapper {
   min-height: 100%;
@@ -3877,12 +3900,6 @@ table {
     font-size: 0.8rem;
     padding: 0.3rem;
     border: 1px solid #c0c0c0; }
-
-h2 {
-  font-size: 1.5rem;
-  font-weight: 500;
-  margin-top: 0.8rem;
-  margin-bottom: 0rem; }
 
 hr {
   margin: 0 0 1rem 0; }
