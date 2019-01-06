@@ -2,12 +2,15 @@
 
 namespace App\Controllers;
 use App\Models\Product;
+use App\Classes\CSRFToken;
+use App\classes\Request;
 
 class IndexController extends BaseController
 {
     public function show()
     {
-        return view('home');
+        $token = CSRFToken::_token();
+        return view('home', compact('token'));
     }
     public function featuredProducts()
     {
@@ -17,6 +20,16 @@ class IndexController extends BaseController
     public function getProducts()
     {
         $products = Product::where('featured', 0)->skip(0)->take(8)->get();
-        echo json_encode(['products' => $products]);
+        echo json_encode(['products' => $products, 'count' => count($products)]);
+    }
+    public function loadMoreProducts()
+    {
+        $request = Request::get('post');
+        if(CSRFToken::verifyCSRFToken($request->token, false)){
+            $count = $request->count;
+            $item_per_page = $count + $request->next;
+            $products = Product::where('featured', 0)->skip(0)->take($item_per_page)->get();
+            echo json_encode(['products' => $products, 'count' => count($products)]);
+        }
     }
 }
