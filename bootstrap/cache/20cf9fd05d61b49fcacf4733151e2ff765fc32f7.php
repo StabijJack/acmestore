@@ -34,7 +34,7 @@
                 </a>
             </div>
         </div>
-        <div class="row medium-up-4">
+        <div class="row medium-up-2 large-up-4">
             <h2>Products Picks</h2>
             <div class="small-12 column" v-cloak v-for="product in products">
                 <a :href="'/product/' + product.id">
