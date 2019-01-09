@@ -3,7 +3,8 @@
     window.ACMESTORE ={
         global: {},
         admin: {},
-        homeslider:{}
+        homeslider:{},
+        product: {}
     };
 })();
 (function(){
@@ -61,6 +62,21 @@
                         app.loadMoreProducts();
                     }
                 })
+            }
+        });
+    }
+})();
+(function(){
+    'use strickt';
+    ACMESTORE.product.details = function () {
+        var app = new Vue({
+            el: '#product',
+            data:{
+                product: [],
+                category:[],
+                subCatagory: [],
+                productId: $('#product').data('id'),
+                loading: false
             }
         });
     }
@@ -243,6 +259,9 @@
             case 'home':
                 ACMESTORE.homeslider.initCarousel();
                 ACMESTORE.homeslider.homePageProducts();
+                break;
+            case 'product':
+                ACMESTORE.product.details();
                 break;
             case 'adminProduct':
                 ACMESTORE.admin.changeEvent();
