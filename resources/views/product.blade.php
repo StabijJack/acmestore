@@ -35,7 +35,9 @@
                         <h2>@{{ product.name }}</h2>
                         <p>@{{ product.description }}</p>
                         <h2>$@{{ product.price }}</h2>
-                        <button class="button alert">Add to Cart</button>
+                        <button @click.prevent="addToCart(product.id)" class="button alert">
+                            Add to Cart
+                        </button>
                     </div>
                 </div>
             </div>
@@ -57,7 +59,7 @@
                                     <a :href="'/product/' + similar.id" class="button more expanded">
                                         see More
                                     </a>
-                                    <a :href="'/product/' + similar.id" class="button cart expanded">
+                                    <button @click.prevent="addToCart(similar.id)" class="button cart expanded">
                                         $ @{{ similar.price }} - Add to cart
                                     </a>
                                 </div>
