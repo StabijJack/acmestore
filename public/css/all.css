@@ -4020,6 +4020,50 @@ hr {
       .navigation .top-bar ul.menu.vertical {
         text-align: left; } }
 
+.home {
+  padding-top: 4.65rem; }
+  @media screen and (max-width: 39.9375em) {
+    .home {
+      padding-top: 2rem; } }
+  .home .hero {
+    width: 100%;
+    box-sizing: border-box; }
+  .home .hero-slider img {
+    width: 100% !important; }
+  .home .display-products {
+    padding: 2rem; }
+    @media screen and (max-width: 39.9375em) {
+      .home .display-products {
+        padding: 0.7rem;
+        text-align: center; } }
+    .home .display-products a {
+      color: black; }
+      .home .display-products afocus {
+        outline-style: none; }
+    .home .display-products .card {
+      padding: 0.9rem;
+      margin-bottom: 1rem; }
+      .home .display-products .card .card-section {
+        margin-bottom: 0.7rem; }
+        .home .display-products .card .card-section img {
+          border-radius: 0.4rem;
+          width: 200px !important;
+          height: 225px !important; }
+        .home .display-products .card .card-section .button {
+          border-radius: 0.2rem;
+          cursor: pointer;
+          font-size: 0.8rem; }
+          .home .display-products .card .card-section .button.more {
+            color: red;
+            background-color: white;
+            border: 1px solid red; }
+          .home .display-products .card .card-section .button.cart {
+            color: green;
+            background-color: white;
+            border: 1px solid green; }
+            .home .display-products .card .card-section .button.cart:hover {
+              background-color: #80ff80; }
+
 .product {
   padding: 6rem; }
   @media screen and (max-width: 39.9375em) {

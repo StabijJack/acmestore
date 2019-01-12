@@ -89,6 +89,7 @@
                                     app.product = response.data.product;
                                     app.category = response.data.category;
                                     app.subCategory = response.data.subCategory;
+                                    app.similarProducts = response.data.similarProducts;
                                     app.loading = false;
                                 }
                             );

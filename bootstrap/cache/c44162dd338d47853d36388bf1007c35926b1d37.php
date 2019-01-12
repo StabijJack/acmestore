@@ -4,7 +4,7 @@
 <?php $__env->startSection('content'); ?>
     <div class="product" id="product" data-token=<?php echo e($token); ?> data-id="<?php echo e($product->id); ?>">
         <div class="text-center">
-            <i v-show="loading" class="fa fa-spinner" style="font-size: 3rem; padding-bottom: 3rem; color:#0a0a0a"> </i>
+            <i v-show="loading" class="fa fa-spinner fa-spin" style="font-size: 3rem; padding-bottom: 3rem; color:#0a0a0a"> </i>
         </div>
         <section class="item-container" v-if="loading == false">
             <div class="row column">
@@ -36,6 +36,33 @@
                         <p>{{ product.description }}</p>
                         <h2>${{ product.price }}</h2>
                         <button class="button alert">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="home" v-if="loading == false">
+            <div class="display-products" >
+                <div class="row medium-up-2 large-up-4">
+                    <h2>Similar Products</h2>
+                    <div class="small-12 column" v-cloak v-for="similar in similarProducts">
+                        <a :href="'/product/' + similar.id">
+                            <div class="card" data-equalizer-watch>
+                                <div class="card-section">
+                                    <img :src="'/' + similar.image_path" >
+                                </div>
+                                <div class="card-section">
+                                    <p>
+                                        {{ stringLimit(similar.name, 15) }}
+                                    </p>
+                                    <a :href="'/product/' + similar.id" class="button more expanded">
+                                        see More
+                                    </a>
+                                    <a :href="'/product/' + similar.id" class="button cart expanded">
+                                        $ {{ similar.price }} - Add to cart
+                                    </a>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>

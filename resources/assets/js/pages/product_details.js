@@ -15,12 +15,13 @@
                     this.loading = true;
                     setTimeout(
                         function(){
-                            axios.get('/product-details/' + this.productId
+                            axios.get('/product-details/' + app.productId
                             ).then(
                                 function (response) {
                                     app.product = response.data.product;
                                     app.category = response.data.category;
                                     app.subCategory = response.data.subCategory;
+                                    app.similarProducts = response.data.similarProducts;
                                     app.loading = false;
                                 }
                             );
