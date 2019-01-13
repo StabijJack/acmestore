@@ -37,8 +37,9 @@
                     return ACMESTORE.module.truncateString(string, value);
                 },
                 addToCart: function(id){
-                    var message = ACMESTORE.module.addItemToCart(id);
-                    alert(message);
+                    ACMESTORE.module.addItemToCart(id, function(message){
+                        alert(message);
+                    });
                 },
 
                 loadMoreProducts: function(){
@@ -78,8 +79,18 @@
             }
 
         },
-        addItemToCart: function(id){
-            return id;
+        addItemToCart: function(id, callback){
+            var token =$('.display-products').data('token');
+            if(token == null || !token){
+                token =$('.product').data('token');
+            }
+            var postData = $.param({
+                product_id: id,
+                token: token
+            });
+            axios.post('/cart', postData).then(function (response) {
+                callback(response.data.succes)
+            });
         }
     }
 })();
@@ -118,8 +129,9 @@
                     return ACMESTORE.module.truncateString(string, value);
                 },
                 addToCart: function(id){
-                    var message = ACMESTORE.module.addItemToCart(id);
-                    alert(message);
+                    ACMESTORE.module.addItemToCart(id, function(message){
+                        alert(message);
+                    });
                 }
             },
             created: function () {

@@ -5,24 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch localhost",
-            "type": "firefox",
-            "request": "launch",
-            "reAttach": true,
-            "url": "http://acme.nl",
+            "name": "acme.nl",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222,
+            // "url": "http://acme.nl:80",
+            "webRoot": "${workspaceFolder}/public",
             "skipFiles": [
                 "${workspaceFolder}/public/js/all.js"
-            ],
-            "pathMappings": [
-                {
-                    "url": "http://acme.nl/js/",
-                    "path": "${workspaceFolder}\\public\\js/"
-                },
-                {
-                    "url": "http://acme.nl",
-                    "path": "${workspaceFolder}/public"
-                }
-            ]
+            ]   
         },
         {
             "name": "Listen for XDebug",

@@ -4,12 +4,14 @@ namespace App\Controllers;
 use App\Models\Product;
 use App\Classes\CSRFToken;
 use App\classes\Request;
+use App\Classes\Session;//tijdelijk
 
 class IndexController extends BaseController
 {
     public function show()
     {
         $token = CSRFToken::_token();
+        Session::remove('user_cart');//tijdelijk
         return view('home', compact('token'));
     }
     public function featuredProducts()
