@@ -29,7 +29,8 @@
                 },
                 addToCart: function(id){
                     ACMESTORE.module.addItemToCart(id, function(message){
-                        alert(message);
+                        $(".notify").css('display', 'block').removeClass('alert')
+                        .addClass('primary').delay(4000).slideUp(300).html(message);
                     });
                 },
 

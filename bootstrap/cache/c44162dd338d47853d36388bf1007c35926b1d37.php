@@ -4,7 +4,8 @@
 <?php $__env->startSection('content'); ?>
     <div class="product" id="product" data-token=<?php echo e($token); ?> data-id="<?php echo e($product->id); ?>">
         <div class="text-center">
-            <i v-show="loading" class="fa fa-spinner fa-spin" style="font-size: 3rem; padding-bottom: 3rem; color:#0a0a0a"> </i>
+            <img v-show="loading" src="/images/loading.gif">
+            
         </div>
         <section class="item-container" v-if="loading == false">
             <div class="row column">
