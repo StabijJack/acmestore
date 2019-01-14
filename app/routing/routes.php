@@ -9,5 +9,7 @@ $router->map('GET','/product/[i:id]','App\Controllers\ProductController@show','p
 $router->map('GET','/product-details/[i:id]','App\Controllers\ProductController@get','product_details');
 
 $router->map('POST','/cart','App\Controllers\CartController@addItem','add_cart_item');
+$router->map('get','/cart','App\Controllers\CartController@show','view_cart');
+$router->map('get','/cart/items','App\Controllers\CartController@getCartItems','get_cart_items');
 
 require_once __DIR__.'/admin_routes.php';

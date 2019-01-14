@@ -41,7 +41,7 @@
                     <li><a href="#">User Name</a></li>
                     <li><a href='#'>Sign in</a></li>
                 <li><a href='#'>Register</a></li>
-                <li><a href='#'>Cart</a></li>
+                <li><a href='/cart'>Cart</a></li>
             </ul>
         </div>
     </div>

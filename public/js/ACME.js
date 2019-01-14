@@ -7,6 +7,21 @@
         product: {}
     };
 })();
+(function (){
+    'use strict'
+    ACMESTORE.product.cart = function (){
+        var app = new Vue({
+            el: '#shopping_cart',
+            data:{
+                items:[],
+                cartTotal:[],
+                loading: false,
+                fail: false,
+                message: '' 
+            }
+        });
+    }
+})();
 (function(){
     'use strict';
     ACMESTORE.homeslider.homePageProducts = function(){
@@ -323,6 +338,9 @@
                 break;
             case 'product':
                 ACMESTORE.product.details();
+                break;
+            case 'cart':
+                ACMESTORE.product.cart();
                 break;
             case 'adminProduct':
                 ACMESTORE.admin.changeEvent();
