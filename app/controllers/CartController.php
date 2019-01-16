@@ -103,4 +103,17 @@ class CartController extends BaseController
         }
 
     }
+    public function removeItem()
+    {
+        if(Request::has('post')){
+            $request= Request::get('post');
+            if($request->item_index === ''){
+                throw new \Exception('Malicious Activity');
+            }
+            //remove item
+            Cart::removeItem($request->item_index);
+            echo json_encode(['succes'=> "Product removed from cart"]);
+            exit;
+        }
+    }
 }

@@ -31,9 +31,19 @@
                 updateQuantity: function (product_id, operator){
                     var postData = $.param({product_id:product_id, operator:operator});
                     axios.post("/cart/update-qty", postData).then(function(response){
+                        $(".notify").css('display', 'block').delay(4000).slideUp(300)
+                        .html(response.data.succes);
                         app.displayItems(200);
                     });
+                },
+                removeItem: function (index){
+                    var postData = $.param({item_index:index})
+                    axios.post("/cart/remove-item", postData).then(function(response){
+                        app.displayItems(200);
+                    });
+
                 }
+
             },
             created: function (){
                 this.displayItems(2000)
