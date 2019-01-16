@@ -30,7 +30,15 @@
                                         <span v-else style="color: red;">Out of Stock</span>
                                     </td>
                                     <td>{{ item.price }}</td>
-                                    <td>{{ item.quantity }}</td>
+                                    <td>
+                                        {{ item.quantity }}
+                                        <button @click="updateQuantity(item.id, '+')" style="cursor: pointer; color: green;">
+                                            <i class="fa fa-plus-square" aria-hidden="true"></i>
+                                        </button>
+                                        <button @click="updateQuantity(item.id, '-')" style="cursor: pointer; color: red;">
+                                            <i class="fa fa-minus-square" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
                                     <td>{{ item.total }}</td>
                                     <td class="text-center">
                                         <button>
