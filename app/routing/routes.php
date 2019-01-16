@@ -11,5 +11,6 @@ $router->map('GET','/product-details/[i:id]','App\Controllers\ProductController@
 $router->map('POST','/cart','App\Controllers\CartController@addItem','add_cart_item');
 $router->map('get','/cart','App\Controllers\CartController@show','view_cart');
 $router->map('get','/cart/items','App\Controllers\CartController@getCartItems','get_cart_items');
+$router->map('POST','/cart/update-qty','App\Controllers\CartController@updateQuantity','update_cart_qty');
 
 require_once __DIR__.'/admin_routes.php';

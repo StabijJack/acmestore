@@ -66,4 +66,41 @@ class CartController extends BaseController
             //log this error
         }
     }
+    public function updateQuantity()
+    {
+        if(Request::has('post')){
+            $request= Request::get('post');
+            if(!$request->product_id){
+                throw new \Exception('Malicious Activity');
+            }
+            $index = 0;
+            $quantity = '';
+            foreach ($_SESSION['user_cart'] as $cartItem) {
+                $index++;
+                foreach ($cartItem as $key => $value) {
+                    if($key == 'product_id' && $value == $request->product_id){
+                        switch ($request->operator) {
+                            case '+':
+                                $quantity= $cartItem['quantity'] + 1;
+                                break;
+                            case '-':
+                                $quantity= $cartItem['quantity'] - 1;
+                                if($quantity < 1){
+                                    $quantity = 1;
+                                }
+                                break;
+                            
+                        }
+                        array_splice($_SESSION['user_cart'], $index - 1,1, array(
+                            [
+                                'product_id' => $request->product_id,
+                                'quantity' => $quantity
+                            ]
+                        ));
+                    }
+                }
+            }
+        }
+
+    }
 }
