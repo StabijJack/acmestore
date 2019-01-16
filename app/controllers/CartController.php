@@ -51,7 +51,7 @@ class CartController extends BaseController
                     'image' => $item->image_path,
                     'description' => $item->description,
                     'price' => $item->price,
-                    'total' => $totalprice,
+                    'total' => $totalPrice,
                     'quantity' => $quantity,
                     'stock' => $item->quantity,
                     'index' => $index
