@@ -116,4 +116,10 @@ class CartController extends BaseController
             exit;
         }
     }
+    public function removeCart()
+    {
+            Cart::clear();
+            echo json_encode(['succes'=> "Cart removed"]);
+            exit;
+    }
 }

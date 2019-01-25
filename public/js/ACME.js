@@ -50,9 +50,14 @@
                         .html(response.data.succes);
                         app.displayItems(200);
                     });
-
+                },
+                removeCart: function (){
+                    axios.post("/cart/remove-cart").then(function(response){
+                        $(".notify").css('display', 'block').delay(4000).slideUp(300)
+                        .html(response.data.succes);
+                        app.displayItems(200);
+                    });
                 }
-
             },
             created: function (){
                 this.displayItems(2000)
