@@ -39,8 +39,8 @@
         <div class="top-bar-right">
             <ul class="menu vertical medium-horizontal">
                     <li><a href="#">User Name</a></li>
-                    <li><a href='#'>Sign in</a></li>
-                <li><a href='#'>Register</a></li>
+                    <li><a href='/login'>Sign in</a></li>
+                <li><a href='/register'>Register</a></li>
                 <li><a href='/cart'>Cart</a></li>
             </ul>
         </div>

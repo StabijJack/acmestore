@@ -80,12 +80,10 @@
                                 </td>
                             </tr>
                         </table>
-                        <div class="text-left">
+                        <div class="text-right">
                             <button @click="removeCart()" class="button succes">
                                 Delete Cart &nbsp; <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                             </button>
-                        </div>
-                        <div class="text-right">
                             <a href="/" class="button secondary">
                                 Continue shopping &nbsp; <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                             </a>
