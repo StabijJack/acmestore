@@ -8,8 +8,8 @@
                 <div class="small-12 medium-7 medium-centered">
                     <h2 class="text-centered">Login</h2>
                     @include("includes.message")
-                    <form action="/register" method="post">
-                        <input type="text" name="username" placeholder="Your Username"
+                    <form action="/login" method="post">
+                        <input type="text" name="username" placeholder="Your Username or Email"
                             value="{{ \App\Classes\Request::old('post', 'username') }}">
                         <input type="password" name="password" placeholder="Your Password">
                         <input type="hidden" name="token" value="{{ \App\Classes\CSRFToken::_token() }}">

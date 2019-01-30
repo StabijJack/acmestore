@@ -8,8 +8,8 @@
                 <div class="small-12 medium-7 medium-centered">
                     <h2 class="text-centered">Login</h2>
                     <?php echo $__env->make("includes.message", \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                    <form action="/register" method="post">
-                        <input type="text" name="username" placeholder="Your Username"
+                    <form action="/login" method="post">
+                        <input type="text" name="username" placeholder="Your Username or Email"
                             value="<?php echo e(\App\Classes\Request::old('post', 'username')); ?>">
                         <input type="password" name="password" placeholder="Your Password">
                         <input type="hidden" name="token" value="<?php echo e(\App\Classes\CSRFToken::_token()); ?>">

@@ -3,9 +3,10 @@
 namespace App\Controllers;
 use App\Classes\CSRFToken;
 use App\classes\Request;
-use Dotenv\Validator;
 use App\Classes\ValidateRequest;
 use App\Models\User;
+use App\Classes\Session;
+use App\Classes\Redirect;
 
 class AuthController extends BaseController
 {
@@ -53,6 +54,36 @@ public function showLoginForm()
     }
     public function login()
     {
-       
-    }
+        if(Request::has('post')){
+            $request = Request::get('post');
+            if (CSRFToken::verifyCSRFToken($request->token)) {
+                 $rules = [
+                     'username' => ['required' =>true],
+                     'password' => ['required' =>true],
+                 ];
+                 $validate = new ValidateRequest;
+                 $validate->abide($_POST, $rules);
+                 if ($validate->hasError()) {
+                     $errors = $validate->getErrorMessages();
+                     return view('login', compact('errors'));
+                 }
+                 $user = User::where('username', $request->username)->orWhere('email',$request->email)->first();
+                 if($user){
+                     if(!password_verify($request->password,$user->password)){
+                         return view('login', ['error'=> 'wrong password']);
+                     }
+                     else{
+                         Session::add('SESSION_USER_ID',$user->id);
+                         Session::add('SESSION_USER_NAME',$user->username);
+                         Redirect::to('/');
+                     }
+                 }
+
+                 Request::refresh();
+                 return view('login',['error'=> 'User unknown']);
+            }
+            throw new \Exception('Token Missmatch');
+        }
+        return null;
+     }
 }
