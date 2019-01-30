@@ -10,12 +10,18 @@ use App\Classes\Redirect;
 
 class AuthController extends BaseController
 {
+    public function __construct()
+    {
+        if(isAuthenticated()){
+            Redirect::to('/');
+        }
+    }
 
-public function showRegisterForm()
+    public function showRegisterForm()
     {
         return view('register');
     }
-public function showLoginForm()
+    public function showLoginForm()
     {
         return view('login');
     }
