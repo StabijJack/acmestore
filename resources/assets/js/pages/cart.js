@@ -8,6 +8,7 @@
                 cartTotal:[],
                 loading: false,
                 fail: false,
+                autheticated: false,
                 message: '' 
             },
             methods: {
@@ -23,6 +24,7 @@
                             else {
                                 app.items = response.data.items;
                                 app.cartTotal = response.data.cartTotal;
+                                app.authenticated = response.data.authenticated
                                 app.loading =false;
                             }
                         });

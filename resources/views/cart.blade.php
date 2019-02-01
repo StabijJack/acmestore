@@ -87,9 +87,18 @@
                             <a href="/" class="button secondary">
                                 Continue shopping &nbsp; <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                             </a>
-                            <button type="submit" class="button succes">
+                            <button v-if="authenticated" class="button succes">
                                 Checkout &nbsp; <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
                             </button>
+                            <span v-else>
+                                <a href="/login" class="button succes">
+                                    Checkout &nbsp; <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                                </a>
+                            </span>
+                            <span id="properties" class="hide" 
+                                data-customer-email="{{ user()->email }}"
+                                data-stripe-key="{{ \App\Classes\Session::get('publishable_key') }}"
+                            ></span>
                         </div>
                     </div>
                 </div>
