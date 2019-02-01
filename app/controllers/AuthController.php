@@ -79,17 +79,29 @@ class AuthController extends BaseController
                          return view('login', ['error'=> 'wrong password']);
                      }
                      else{
-                         Session::add('SESSION_USER_ID',$user->id);
-                         Session::add('SESSION_USER_NAME',$user->username);
-                         Redirect::to('/');
-                     }
-                 }
-
-                 Request::refresh();
-                 return view('login',['error'=> 'User unknown']);
+                        Session::add('SESSION_USER_ID',$user->id);
+                        Session::add('SESSION_USER_NAME',$user->username);
+                        Redirect::to('/');
+                    }
+                }                    
+                Request::refresh();
+                return view('login',['error'=> 'User unknown']);
             }
             throw new \Exception('Token Missmatch');
         }
         return null;
-     }
+    }
+    
+    public function logout()
+    {
+        if(isAuthenticated()){
+            Session::remove('SESSION_USER_ID');
+            Session::remove('SESSION_USER_NAME');
+            if (!Session::has('user_cart')) {
+                session_destroy();
+                session_regenerate_id(true);
+            }
+        }
+        Redirect::to('/');
+    }
 }

@@ -39,13 +39,17 @@
         <div class="top-bar-right">
             <ul class="menu vertical medium-horizontal">
                 <?php if(isAuthenticated()): ?>
-                    <li><?php echo e(user()->username); ?></li>
-                    <li><a href='/cart'>Cart</a></li>
+                    <li><a href="#"><?php echo e(user()->username); ?></a></li>
                     <li><a href='/logout'>Logout</a></li>
+                    <li><a href='/cart'>
+                        Cart &nbsp; <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    </a></li>
                 <?php else: ?>
                     <li><a href='/login'>Sign in</a></li>
                     <li><a href='/register'>Register</a></li>
-                    <li><a href='/cart'>Cart</a></li>
+                    <li><a href='/cart'>
+                        Cart &nbsp; <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    </a></li>
                 <?php endif; ?>
             </ul>
         </div>

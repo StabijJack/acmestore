@@ -11,7 +11,6 @@ class IndexController extends BaseController
     public function show()
     {
         $token = CSRFToken::_token();
-        Session::remove('user_cart');//tijdelijk
         return view('home', compact('token'));
     }
     public function featuredProducts()
