@@ -6,6 +6,8 @@ use App\classes\Request;
 use App\classes\Cart;
 use App\Classes\Session;
 use App\Models\Product;
+use Stripe\Customer;
+use Stripe\Charge;
 
 class CartController extends BaseController
 {
@@ -59,6 +61,7 @@ class CartController extends BaseController
                 $index++;
             }
             $cartTotal = number_format($cartTotal, 2);
+            Session::add('cartTotal', $cartTotal);
             echo json_encode([
                 'items' => $result, 
                 'cartTotal' => $cartTotal, 
@@ -131,7 +134,24 @@ class CartController extends BaseController
     {
         if(Request::has('post')){
             $request = Request::get('post');
-            echo json_encode(['succes'=> $request]);
+            $token = $request->stripeToken;
+            $email = $request->stripeEmail;
+            try{
+                $customer = Customer::create([
+                    'email'=> $email,
+                    'source' => $token
+                ]);
+                $charge = Charge::create([
+                    'customer' => $customer->id,
+                    'amount' => Session::get('cartTotal'),
+                    'description' => user()->fullname.'-cart purchase',
+                    'currency'=> 'usd'
+                ]);
+                echo json_encode(['customer'=> $customer]);
+                exit;
+            }catch (\Exeption $ex){
+
+            }
         }
     }
 }

@@ -75,7 +75,7 @@
                 checkout: function(){
                     Stripe.open({
                         name: "Acme Store inc",
-                        desciption: "Shopping card items",
+                        description: "Shopping card items",
                         email: $('#properties').data('customer-email'),
                         amount: app.amountInCents,
                         zipCode: true
