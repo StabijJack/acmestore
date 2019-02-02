@@ -1,6 +1,9 @@
  
 <?php $__env->startSection('title','Your shopping cart'); ?>
 <?php $__env->startSection('data-page-id', 'cart'); ?> 
+<?php $__env->startSection('stripe-checkout'); ?> 
+    <script src="//checkout.stripe.com/v2/checkout.js"></script> 
+<?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
     <div class="shopping_cart" id="shopping_cart" >
         <div class="text-center">
@@ -87,7 +90,7 @@
                             <a href="/" class="button secondary">
                                 Continue shopping &nbsp; <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                             </a>
-                            <button v-if="authenticated" class="button succes">
+                            <button @click.prevent="checkout()" v-if="authenticated" class="button succes">
                                 Checkout &nbsp; <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
                             </button>
                             <span v-else>

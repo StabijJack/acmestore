@@ -10,6 +10,25 @@
 (function (){
     'use strict'
     ACMESTORE.product.cart = function (){
+        var Stripe = StripeCheckout.configure({
+            key: $('#properties').data('stripe-key'),
+            locale: "auto",
+            image: "https://files.stripe.com/files/f_test_TrwlLGkLQbR4MLuY5GGxxFj6",
+            token: function(token){
+                var data = $.param({stripeToken: token.id, stripeEmail:token.email});
+                axios.post('/cart/payment',data)
+                    .then(function(response){
+                            $(".notify").css('display', 'block').delay(4000).slideUp(300)
+                            .html(response.data.succes);
+                            app.displayItems(200);
+                        }
+                    )
+                    .catch(function(error){
+                            console.log(error);
+                        }
+                    )
+            }
+        });
         var app = new Vue({
             el: '#shopping_cart',
             data:{
@@ -18,6 +37,7 @@
                 loading: false,
                 fail: false,
                 autheticated: false,
+                amountInCents: 0,
                 message: '' 
             },
             methods: {
@@ -34,6 +54,7 @@
                                 app.items = response.data.items;
                                 app.cartTotal = response.data.cartTotal;
                                 app.authenticated = response.data.authenticated
+                                app.amountInCents = response.data.amountInCents
                                 app.loading =false;
                             }
                         });
@@ -58,6 +79,15 @@
                         $(".notify").css('display', 'block').delay(4000).slideUp(300)
                         .html(response.data.succes);
                         app.displayItems(200);
+                    });
+                },
+                checkout: function(){
+                    Stripe.open({
+                        name: "Acme Store inc",
+                        desciption: "Shopping card items",
+                        email: $('#properties').data('customer-email'),
+                        amount: app.amountInCents,
+                        zipCode: true
                     });
                 }
             },

@@ -1,6 +1,9 @@
 @extends('layouts.app') 
 @section('title','Your shopping cart')
 @section('data-page-id', 'cart') 
+@section('stripe-checkout') 
+    <script src="//checkout.stripe.com/v2/checkout.js"></script> 
+@endsection
 @section('content')
     <div class="shopping_cart" id="shopping_cart" >
         <div class="text-center">
@@ -87,7 +90,7 @@
                             <a href="/" class="button secondary">
                                 Continue shopping &nbsp; <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                             </a>
-                            <button v-if="authenticated" class="button succes">
+                            <button @click.prevent="checkout()" v-if="authenticated" class="button succes">
                                 Checkout &nbsp; <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
                             </button>
                             <span v-else>

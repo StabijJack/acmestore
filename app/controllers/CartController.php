@@ -59,11 +59,12 @@ class CartController extends BaseController
                 $index++;
             }
             $cartTotal = number_format($cartTotal, 2);
-            echo json_encode(
-                ['items' => $result, 'cartTotal' => $cartTotal, 
-                    'authenticated' => isAuthenticated()
-                ]
-            );
+            echo json_encode([
+                'items' => $result, 
+                'cartTotal' => $cartTotal, 
+                'authenticated' => isAuthenticated(),
+                'amountInCents' => convertMoneyToCents($cartTotal)
+            ]);
             exit;
     
         } catch (\Exception $ex) {
@@ -122,8 +123,15 @@ class CartController extends BaseController
     }
     public function removeCart()
     {
-            Cart::clear();
-            echo json_encode(['succes'=> "Cart removed"]);
-            exit;
+        Cart::clear();
+        echo json_encode(['succes'=> "Cart removed"]);
+        exit;
+    }
+    public function checkout()
+    {
+        if(Request::has('post')){
+            $request = Request::get('post');
+            echo json_encode(['succes'=> $request]);
+        }
     }
 }

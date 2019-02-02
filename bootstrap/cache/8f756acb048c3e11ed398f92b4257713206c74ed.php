@@ -12,10 +12,10 @@
 </head>
 
 <body data-page-id="<?php echo $__env->yieldContent('data-page-id'); ?>">
-    <?php echo $__env->yieldContent('body'); ?>
-
+  <?php echo $__env->yieldContent('body'); ?>
   <script src="/js/all.js"></script>
   <script src="/js/ACME.js"></script>
+  <?php echo $__env->yieldContent('stripe-checkout'); ?>
 </body>
 
 </html>

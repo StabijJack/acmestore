@@ -12,10 +12,10 @@
 </head>
 
 <body data-page-id="@yield('data-page-id')">
-    @yield('body')
-
+  @yield('body')
   <script src="/js/all.js"></script>
   <script src="/js/ACME.js"></script>
+  @yield('stripe-checkout')
 </body>
 
 </html>

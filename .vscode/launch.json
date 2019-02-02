@@ -12,7 +12,8 @@
             // "url": "http://acme.nl:80",
             "webRoot": "${workspaceFolder}/public",
             "skipFiles": [
-                "${workspaceFolder}/public/js/all.js"
+                "${workspaceFolder}/public/js/all.js",
+                "https://cdn.jsdelivr.net/npm/vue"
             ]   
         },
         {
