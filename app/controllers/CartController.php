@@ -6,6 +6,8 @@ use App\classes\Request;
 use App\classes\Cart;
 use App\Classes\Session;
 use App\Models\Product;
+use App\Models\Order;
+use App\Models\Payment;
 use Stripe\Customer;
 use Stripe\Charge;
 
@@ -133,25 +135,66 @@ class CartController extends BaseController
     public function checkout()
     {
         if(Request::has('post')){
+            $result = array();
             $request = Request::get('post');
             $token = $request->stripeToken;
             $email = $request->stripeEmail;
+            $amount = convertMoneyToCents(Session::get('cartTotal'));
             try{
                 $customer = Customer::create([
                     'email'=> $email,
                     'source' => $token
                 ]);
+
                 $charge = Charge::create([
                     'customer' => $customer->id,
-                    'amount' => Session::get('cartTotal'),
+                    'amount' => $amount,
                     'description' => user()->fullname.'-cart purchase',
                     'currency'=> 'usd'
                 ]);
-                echo json_encode(['customer'=> $customer]);
-                exit;
-            }catch (\Exeption $ex){
+                $order_no = strtoupper(uniqid());
 
+                foreach ($_SESSION['user_cart'] as $cardItem) {
+                    $productId = $cardItem['product_id'];
+                    $quantity = $cardItem['quantity'];
+                    $item = Product::where('id', $productId)->first();
+                    if(!$item){continue;}
+                    $totalPrice = $item->price * $quantity;
+                    $totalPrice = number_format($totalPrice, 2);
+                    order::create([
+                        'user_id' => user()->id,
+                        'product_id' => $productId,
+                        'unit_price' => $item->price,
+                        'status' => 'Pending',
+                        'quantity' => $quantity,
+                        'total'=>$totalPrice,
+                        'order_no' => $order_no
+
+                    ]);
+
+                    $item->quantity -= $quantity;
+                    $item->save;
+
+                    array_push($result, [
+                        'name' => $item->name,
+                        'price' => $item->price,
+                        'total' => $totalPrice,
+                        'quantity' => $quantity,
+                    ]);
+                }
+                Payment::create([
+                    'user_id' => user()->id,
+                    'amount' => $charge->amount,
+                    'status' => $charge->status,
+                    'order_no'=> $order_no,
+
+                ]);
+
+            }catch (\Exeption $ex){
+                echo $ex->getMessage();
             }
+            Cart::clear();
+            echo json_encode(['success'=> 'Thank you']);
         }
     }
 }
