@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Classes\CSRFToken;
 use App\classes\Request;
 use App\classes\Cart;
+use App\classes\Mail;
 use App\Classes\Session;
 use App\Models\Product;
 use App\Models\Order;
@@ -135,7 +136,10 @@ class CartController extends BaseController
     public function checkout()
     {
         if(Request::has('post')){
-            $result = array();
+            $result['product'] = array();
+            $result['order_no'] = '';
+            $result['total'] = '';
+
             $request = Request::get('post');
             $token = $request->stripeToken;
             $email = $request->stripeEmail;
@@ -175,7 +179,7 @@ class CartController extends BaseController
                     $item->quantity -= $quantity;
                     $item->save;
 
-                    array_push($result, [
+                    array_push($result['product'], [
                         'name' => $item->name,
                         'price' => $item->price,
                         'total' => $totalPrice,
@@ -187,9 +191,21 @@ class CartController extends BaseController
                     'amount' => $charge->amount,
                     'status' => $charge->status,
                     'order_no'=> $order_no,
+                    
+                    ]);
+                    
+                $result['order_no'] = $order_no;
+                $result['total'] = Session::get('cardTotal');
 
-                ]);
-
+                $data = [
+                    'to' => user()->email,
+                    'subject' => 'Order Confirmation',
+                    'view' => 'purchase.php',
+                    'name' => user()->fullName,
+                    'body' => $result
+                ];
+                // (new Mail())->send($data);
+    
             }catch (\Exeption $ex){
                 echo $ex->getMessage();
             }

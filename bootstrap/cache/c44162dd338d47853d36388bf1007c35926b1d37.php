@@ -36,8 +36,11 @@
                         <h2>{{ product.name }}</h2>
                         <p>{{ product.description }}</p>
                         <h2>${{ product.price }}</h2>
-                        <button @click.prevent="addToCart(product.id)" class="button alert">
+                        <button v-if="product.quantity > 0" @click.prevent="addToCart(product.id)" class="button alert">
                             Add to Cart
+                        </button>
+                        <button v-else class="button warning">
+                            Solded out
                         </button>
                     </div>
                 </div>
@@ -60,9 +63,13 @@
                                     <a :href="'/product/' + similar.id" class="button more expanded">
                                         see More
                                     </a>
-                                    <button @click.prevent="addToCart(similar.id)" class="button cart expanded">
+                                    <button v-if="similar.quantity > 0" @click.prevent="addToCart(similar.id)" class="button cart expanded">
                                         $ {{ similar.price }} - Add to cart
-                                    </a>
+                                    </button>
+                                    <button v-else class="button warning">
+                                        Solded out
+                                    </button>
+            
                                 </div>
                             </div>
                         </a>

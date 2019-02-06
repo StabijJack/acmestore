@@ -16,13 +16,22 @@ class Mail
         $this->mail->isSMTP();
         $this->mail->Mailer = 'smtp';
         $this->mail->SMTPAuth = true;
-        $this->mail->SMTPSecure = 'tls';
+        $this->mail->SMTPSecure = 'ssl';
 
         $this->mail->Host = getenv('SMTP_HOST');
         $this->mail->Port = getenv('SMTP_PORT');
         
         $environment = getenv('APP_ENV');
-        if ($environment === 'local') {$this->mail->SMTPDebug = 2;}
+        if ($environment === 'local') {
+            $this->mail->smtpOptions=[
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                )
+            ];
+            $this->mail->SMTPDebug = 2;
+        }
 
         $this->mail->Username = getenv('EMAIL_USERNAME');
         $this->mail->Password = getenv('EMAIL_PASSWORD');
