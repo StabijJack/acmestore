@@ -2,7 +2,7 @@
 @section('title', 'Edit Product') 
 @section('data-page-id', 'adminProduct') 
 @section('content')
-<div class="add-product">
+<div class="add-product admin_shared">
     <div class="row expanded">
         <div class="column medium-11">
             <h2>Edit {{ $product->name }}</h2>

@@ -3912,8 +3912,16 @@ table {
     padding: 0.3rem;
     border: 1px solid #c0c0c0; }
 
-hr {
+.admin_shared hr {
   margin: 0 0 1rem 0; }
+
+.admin_shared h2 {
+  font-family: 'Fjalla One', sans-serif;
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  padding-left: 0;
+  font-weight: 500; }
 
 .reveal {
   border: 0;

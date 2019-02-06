@@ -2,7 +2,7 @@
 @section('title', 'Manage Inventory') 
 @section('data-page-id', 'adminProduct') 
 @section('content')
-<div class="products">
+<div class="products admin_shared">
     <div class="row expanded">
         <div class="column medium-11">
             <h2>Manage Inventory Items</h2>

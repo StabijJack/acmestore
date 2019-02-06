@@ -2,7 +2,7 @@
 @section('title', 'Create Product')
 @section('data-page-id', 'adminProduct')
 @section('content')
-<div class="add-product">
+<div class="add-product admin_shared">
     <div class="row expanded">
         <div class="column medium-11">
             <h2>Add Inventory Item</h2>
