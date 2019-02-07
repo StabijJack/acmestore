@@ -7,25 +7,39 @@ use App\Classes\Session;
 use App\Classes\CSRFToken;
 use App\classes\Redirect;
 use App\classes\ReQuest;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\User;
+use App\Models\Payment;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 class DashboardController extends BaseController
 {
     public function show()
     {
-        Session::add('Admin', 'You are welcome');
-        if (Session::has('Admin')){
-            $msg = Session::get('Admin');
-        }
-        else {
-            $msg='not defined';
-        }
-
-        view('admin.dashboard',['admin'=> $msg]);
+        $orders=Order::all()->count();
+        $products = Product::all()->count();
+        $users = User::all()->count();
+        $payments = Payment::all()->sum('amount');
+        view('admin.dashboard',compact('orders', 'products', 'payments', 'users'));
     }
-    public function get()
+    public function getChartData()
     {
-        Request::refresh();
-        $data = Request::old('file','image');
-        var_dump($data);
+        $revenue = Capsule::table('payments')->select(
+            Capsule::raw('sum(amount) as `amount`'),
+            Capsule::raw("DATE_FORMAT(created_at, '%m-%Y') new_date"),
+            Capsule::raw('YEAR(created_at) year, Month(created_at) month')
+        )->groupby('year', 'month')->get();
+
+        $orders = Capsule::table('orders')->select(
+            Capsule::raw('count(id) as `count`'),
+            Capsule::raw("DATE_FORMAT(created_at, '%m-%Y') new_date"),
+            Capsule::raw('YEAR(created_at) year, Month(created_at) month')
+        )->groupby('year', 'month')->get();
+
+        echo json_encode([
+            'revenues' => $revenue,
+            'orders' => $orders
+        ]);
     }
 }

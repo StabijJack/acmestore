@@ -13,7 +13,7 @@
                             <i class="fa fa-shopping-cart" ria-hidden="true"></i>
                         </div>
                         <div class="small-9 column">
-                            <p>Total Orders</p><h4>5000</h4>
+                            <p>Total Orders</p><h4>{{ $orders }}</h4>
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                             <i class="fa fa-thermometer-empty" ria-hidden="true"></i>
                         </div>
                         <div class="small-9 column">
-                            <p>Stock</p><h4>5000</h4>
+                            <p>Stock</p><h4>{{ $products }}</h4>
                         </div>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                             <i class="fa fa-money" ria-hidden="true"></i>
                         </div>
                         <div class="small-9 column">
-                            <p>Revenue</p><h4>5000</h4>
+                            <p>Revenue</p><h4>${{ number_format($payments,2) }}</h4>
                         </div>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                             <i class="fa fa-users" ria-hidden="true"></i>
                         </div>
                         <div class="small-9 column">
-                            <p>signup</p><h4>5000</h4>
+                            <p>signup</p><h4>{{ $users }}</h4>
                         </div>
                     </div>
                 </div>
