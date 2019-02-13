@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Classes\Session;
 use App\Classes\Redirect;
 use App\Classes\Request;
+use App\Classes\Role;
 use App\Classes\CSRFToken;
 use App\Classes\ValidateRequest;
 use App\Controllers\BaseController;
@@ -22,6 +23,10 @@ class ProductController extends BaseController
     public $links;
     public function __construct()
     {
+        if(!Role::middleware('admin')){
+            Redirect::to('/login');
+        };
+    
         $this->categories = Category::all();
         $total = Product::all()->count();
         list($this->products, $this->links) = paginate(10, $total, $this->table_name, new Product);

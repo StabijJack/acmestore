@@ -5,8 +5,9 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Classes\Session;
 use App\Classes\CSRFToken;
-use App\classes\Redirect;
-use App\classes\ReQuest;
+use App\Classes\Redirect;
+use App\Classes\ReQuest;
+use App\Classes\Role;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -15,6 +16,11 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 class DashboardController extends BaseController
 {
+    public function __construct(){
+        if(!Role::middleware('admin')){
+            Redirect::to('/login');
+        };
+    }
     public function show()
     {
         $orders=Order::all()->count();
