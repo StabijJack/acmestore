@@ -1,9 +1,9 @@
 <!-- Side Menu bar -->
 <div class="off-canvas position-left reveal-for-large nav" id="offCanvas" data-off-canvas>
-  <h3>Welcome Admin</h3>
+  <h3>Admin Panel</h3>
   <div class="image-holder text-center">
     <img src="/images/JackvanAmstel.jpg" alt="Jack Schneider" title="Admin">
-    <p>Jack Schneider</p>
+    <p><?php echo e(user()->fullname); ?></p>
   </div>
   <ul class="vertical menu">
     <li><a href="/admin"><i class="fa fa-tachometer fa-fw" aria-hidden="true"></i>&nbsp;Dashboard</a></li>

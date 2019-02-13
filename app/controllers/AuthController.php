@@ -81,7 +81,13 @@ class AuthController extends BaseController
                      else{
                         Session::add('SESSION_USER_ID',$user->id);
                         Session::add('SESSION_USER_NAME',$user->username);
-                        Redirect::to('/');
+                        if($user->role =='admin'){
+                            Redirect::to('/admin');
+                        }else if($user->role =='user' && Session::has('user_cart')){
+                            Redirect::to('/cart');
+                        }else{
+                            Redirect::to('/');
+                        }
                     }
                 }                    
                 Request::refresh();

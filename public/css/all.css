@@ -3942,7 +3942,7 @@ table {
   color: #ff0000; }
 
 .nav {
-  background-color: #2a3f54; }
+  background-image: url("/images/sidebar.jpg"); }
   .nav .menu > li > a {
     color: #ffffff;
     font-size: 1.2rem; }
@@ -3955,10 +3955,10 @@ table {
     font-weight: 500; }
   .nav .image-holder {
     padding: 0.7rem;
-    background-color: #e93f49; }
+    background-color: #1c2b39; }
     .nav .image-holder img {
       border-radius: 50%;
-      border: 1px solid #c51721;
+      border: 1px solid white;
       padding: 0.3rem;
       height: 200px;
       width: 200px; }
