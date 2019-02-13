@@ -5,6 +5,7 @@
     "jquery": "~2.2",
     "motion-ui": "^2.0.3",
     "slick-carousel": "^1.8.1",
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "chart.js": "^2.7.3"
   }
 }

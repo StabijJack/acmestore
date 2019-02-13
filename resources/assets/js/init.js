@@ -13,6 +13,9 @@
             case 'cart':
                 ACMESTORE.product.cart();
                 break;
+            case 'adminDashboard':
+                ACMESTORE.admin.dashboard();
+                break;
             case 'adminProduct':
                 ACMESTORE.admin.changeEvent();
                 ACMESTORE.admin.delete();
