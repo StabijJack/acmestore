@@ -188,7 +188,7 @@ class CartController extends BaseController
                 }
                 Payment::create([
                     'user_id' => user()->id,
-                    'amount' => $charge->amount,
+                    'amount' => $charge->amount/100,
                     'status' => $charge->status,
                     'order_no'=> $order_no,
                     

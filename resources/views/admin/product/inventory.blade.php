@@ -28,7 +28,7 @@
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Category</th>
-                        <th>name</th>SubCategory
+                        <th>SubCategory</th>
                         <th>Date Created</th>
                         <th width="70">Action</th>
                     </tr>
