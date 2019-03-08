@@ -1,26 +1,25 @@
-(function (){
-    'use strict'
+(function () {
+    'use strict';
+
     ACMESTORE.module = {
-        truncateString: function limit(string, value){
-            if (string.length > value){
-                return string.substring(0,value)+ '...';
+        truncateString: function limit(string, value) {
+            if(string.length > value){
+                return string.substring(0, value) + '...';
             }else{
                 return string;
             }
-
         },
-        addItemToCart: function(id, callback){
-            var token =$('.display-products').data('token');
+        addItemToCart: function (id, callback) {
+            var token = $('.display-products').data('token');
+
             if(token == null || !token){
-                token =$('.product').data('token');
+                token = $('.product').data('token');
             }
-            var postData = $.param({
-                product_id: id,
-                token: token
-            });
+
+            var postData = $.param({product_id: id, token: token});
             axios.post('/cart', postData).then(function (response) {
-                callback(response.data.succes)
-            });
+                callback(response.data.success);
+            })
         }
     }
 })();

@@ -2,7 +2,6 @@
 
 var defaults = require('../core/core.defaults');
 var helpers = require('../helpers/index');
-var scaleService = require('../core/core.scaleService');
 var Ticks = require('../core/core.ticks');
 
 module.exports = function(Chart) {
@@ -171,10 +170,11 @@ module.exports = function(Chart) {
 
 			if (me.isHorizontal()) {
 				pixel = me.left + (me.width / range * (rightValue - start));
-			} else {
-				pixel = me.bottom - (me.height / range * (rightValue - start));
+				return Math.round(pixel);
 			}
-			return pixel;
+
+			pixel = me.bottom - (me.height / range * (rightValue - start));
+			return Math.round(pixel);
 		},
 		getValueForPixel: function(pixel) {
 			var me = this;
@@ -187,6 +187,6 @@ module.exports = function(Chart) {
 			return this.getPixelForValue(this.ticksAsNumbers[index]);
 		}
 	});
+	Chart.scaleService.registerScaleType('linear', LinearScale, defaultConfig);
 
-	scaleService.registerScaleType('linear', LinearScale, defaultConfig);
 };

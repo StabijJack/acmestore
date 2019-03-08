@@ -1,17 +1,12 @@
 'use strict';
 
-var Animation = require('./core.animation');
-var animations = require('./core.animations');
 var defaults = require('./core.defaults');
 var helpers = require('../helpers/index');
 var Interaction = require('./core.interaction');
-var layouts = require('./core.layouts');
 var platform = require('../platforms/platform');
-var plugins = require('./core.plugins');
-var scaleService = require('../core/core.scaleService');
-var Tooltip = require('./core.tooltip');
 
 module.exports = function(Chart) {
+	var plugins = Chart.plugins;
 
 	// Create a dictionary of chart types, to allow for extension of existing types
 	Chart.types = {};
@@ -50,21 +45,17 @@ module.exports = function(Chart) {
 	function updateConfig(chart) {
 		var newOptions = chart.options;
 
-		helpers.each(chart.scales, function(scale) {
-			layouts.removeBox(chart, scale);
-		});
+		// Update Scale(s) with options
+		if (newOptions.scale) {
+			chart.scale.options = newOptions.scale;
+		} else if (newOptions.scales) {
+			newOptions.scales.xAxes.concat(newOptions.scales.yAxes).forEach(function(scaleOptions) {
+				chart.scales[scaleOptions.id].options = scaleOptions;
+			});
+		}
 
-		newOptions = helpers.configMerge(
-			Chart.defaults.global,
-			Chart.defaults[chart.config.type],
-			newOptions);
-
-		chart.options = chart.config.options = newOptions;
-		chart.ensureScalesHaveIDs();
-		chart.buildOrUpdateScales();
 		// Tooltip
 		chart.tooltip._options = newOptions.tooltips;
-		chart.tooltip.initialize();
 	}
 
 	function positionIsHorizontal(position) {
@@ -152,7 +143,7 @@ module.exports = function(Chart) {
 
 			// Make sure scales have IDs and are built before we build any controllers.
 			me.ensureScalesHaveIDs();
-			me.buildOrUpdateScales();
+			me.buildScales();
 			me.initToolTip();
 
 			// After init plugin notification
@@ -168,7 +159,7 @@ module.exports = function(Chart) {
 
 		stop: function() {
 			// Stops any current animation loop occurring
-			animations.cancelAnimation(this);
+			Chart.animationService.cancelAnimation(this);
 			return this;
 		},
 
@@ -181,7 +172,7 @@ module.exports = function(Chart) {
 			// the canvas render width and height will be casted to integers so make sure that
 			// the canvas display style uses the same integer values to avoid blurring effect.
 
-			// Set to 0 instead of canvas.size because the size defaults to 300x150 if the element is collapsed
+			// Set to 0 instead of canvas.size because the size defaults to 300x150 if the element is collased
 			var newWidth = Math.max(0, Math.floor(helpers.getMaximumWidth(canvas)));
 			var newHeight = Math.max(0, Math.floor(aspectRatio ? newWidth / aspectRatio : helpers.getMaximumHeight(canvas)));
 
@@ -207,9 +198,7 @@ module.exports = function(Chart) {
 				}
 
 				me.stop();
-				me.update({
-					duration: me.options.responsiveAnimationDuration
-				});
+				me.update(me.options.responsiveAnimationDuration);
 			}
 		},
 
@@ -234,15 +223,11 @@ module.exports = function(Chart) {
 		/**
 		 * Builds a map of scale ID to scale object for future lookup.
 		 */
-		buildOrUpdateScales: function() {
+		buildScales: function() {
 			var me = this;
 			var options = me.options;
-			var scales = me.scales || {};
+			var scales = me.scales = {};
 			var items = [];
-			var updated = Object.keys(scales).reduce(function(obj, id) {
-				obj[id] = false;
-				return obj;
-			}, {});
 
 			if (options.scales) {
 				items = items.concat(
@@ -266,35 +251,24 @@ module.exports = function(Chart) {
 
 			helpers.each(items, function(item) {
 				var scaleOptions = item.options;
-				var id = scaleOptions.id;
 				var scaleType = helpers.valueOrDefault(scaleOptions.type, item.dtype);
+				var scaleClass = Chart.scaleService.getScaleConstructor(scaleType);
+				if (!scaleClass) {
+					return;
+				}
 
 				if (positionIsHorizontal(scaleOptions.position) !== positionIsHorizontal(item.dposition)) {
 					scaleOptions.position = item.dposition;
 				}
 
-				updated[id] = true;
-				var scale = null;
-				if (id in scales && scales[id].type === scaleType) {
-					scale = scales[id];
-					scale.options = scaleOptions;
-					scale.ctx = me.ctx;
-					scale.chart = me;
-				} else {
-					var scaleClass = scaleService.getScaleConstructor(scaleType);
-					if (!scaleClass) {
-						return;
-					}
-					scale = new scaleClass({
-						id: id,
-						type: scaleType,
-						options: scaleOptions,
-						ctx: me.ctx,
-						chart: me
-					});
-					scales[scale.id] = scale;
-				}
+				var scale = new scaleClass({
+					id: scaleOptions.id,
+					options: scaleOptions,
+					ctx: me.ctx,
+					chart: me
+				});
 
+				scales[scale.id] = scale;
 				scale.mergeTicksOptions();
 
 				// TODO(SB): I think we should be able to remove this custom case (options.scale)
@@ -304,16 +278,8 @@ module.exports = function(Chart) {
 					me.scale = scale;
 				}
 			});
-			// clear up discarded scales
-			helpers.each(updated, function(hasUpdated, id) {
-				if (!hasUpdated) {
-					delete scales[id];
-				}
-			});
 
-			me.scales = scales;
-
-			scaleService.addScalesToLayout(this);
+			Chart.scaleService.addScalesToLayout(this);
 		},
 
 		buildOrUpdateControllers: function() {
@@ -335,7 +301,6 @@ module.exports = function(Chart) {
 
 				if (meta.controller) {
 					meta.controller.updateIndex(datasetIndex);
-					meta.controller.linkScales();
 				} else {
 					var ControllerClass = Chart.controllers[meta.type];
 					if (ControllerClass === undefined) {
@@ -382,10 +347,6 @@ module.exports = function(Chart) {
 
 			updateConfig(me);
 
-			// plugins options references might have change, let's invalidate the cache
-			// https://github.com/chartjs/Chart.js/issues/5111#issuecomment-355934167
-			plugins._invalidate(me);
-
 			if (plugins.notify(me, 'beforeUpdate') === false) {
 				return;
 			}
@@ -404,11 +365,9 @@ module.exports = function(Chart) {
 			me.updateLayout();
 
 			// Can only reset the new controllers after the scales have been updated
-			if (me.options.animation && me.options.animation.duration) {
-				helpers.each(newControllers, function(controller) {
-					controller.reset();
-				});
-			}
+			helpers.each(newControllers, function(controller) {
+				controller.reset();
+			});
 
 			me.updateDatasets();
 
@@ -446,7 +405,7 @@ module.exports = function(Chart) {
 				return;
 			}
 
-			layouts.update(this, this.width, this.height);
+			Chart.layoutService.update(this, this.width, this.height);
 
 			/**
 			 * Provided for backward compatibility, use `afterLayout` instead.
@@ -525,7 +484,7 @@ module.exports = function(Chart) {
 			};
 
 			if (animationOptions && ((typeof duration !== 'undefined' && duration !== 0) || (typeof duration === 'undefined' && animationOptions.duration !== 0))) {
-				var animation = new Animation({
+				var animation = new Chart.Animation({
 					numSteps: (duration || animationOptions.duration) / 16.66, // 60 fps
 					easing: config.easing || animationOptions.easing,
 
@@ -541,12 +500,12 @@ module.exports = function(Chart) {
 					onAnimationComplete: onComplete
 				});
 
-				animations.addAnimation(me, animation, duration, lazy);
+				Chart.animationService.addAnimation(me, animation, duration, lazy);
 			} else {
 				me.draw();
 
 				// See https://github.com/chartjs/Chart.js/issues/3781
-				onComplete(new Animation({numSteps: 0, chart: me}));
+				onComplete(new Chart.Animation({numSteps: 0, chart: me}));
 			}
 
 			return me;
@@ -562,10 +521,6 @@ module.exports = function(Chart) {
 			}
 
 			me.transition(easingValue);
-
-			if (me.width <= 0 || me.height <= 0) {
-				return;
-			}
 
 			if (plugins.notify(me, 'beforeDraw', [easingValue]) === false) {
 				return;
@@ -785,7 +740,7 @@ module.exports = function(Chart) {
 
 		initToolTip: function() {
 			var me = this;
-			me.tooltip = new Tooltip({
+			me.tooltip = new Chart.Tooltip({
 				_chart: me,
 				_chartInstance: me, // deprecated, backward compatibility
 				_data: me.data,
@@ -864,15 +819,7 @@ module.exports = function(Chart) {
 			me._bufferedRequest = null;
 
 			var changed = me.handleEvent(e);
-			// for smooth tooltip animations issue #4989
-			// the tooltip should be the source of change
-			// Animation check workaround:
-			// tooltip._start will be null when tooltip isn't animating
-			if (tooltip) {
-				changed = tooltip._start
-					? tooltip.handleEvent(e)
-					: changed | tooltip.handleEvent(e);
-			}
+			changed |= tooltip && tooltip.handleEvent(e);
 
 			plugins.notify(me, 'afterEvent', [e]);
 
@@ -886,10 +833,7 @@ module.exports = function(Chart) {
 
 				// We only need to render at this point. Updating will cause scales to be
 				// recomputed generating flicker & using more memory than necessary.
-				me.render({
-					duration: me.options.hover.animationDuration,
-					lazy: true
-				});
+				me.render(me.options.hover.animationDuration, true);
 			}
 
 			me._bufferedRender = false;

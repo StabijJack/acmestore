@@ -1,14 +1,15 @@
-(function(){
+(function () {
     'use strict';
-    ACMESTORE.homeslider.initCarousel = function(){
+
+    ACMESTORE.homeslider.initCarousel = function () {
         $('.hero-slider').slick({
             slidesToShow: 1,
             autoplay: true,
             arrows: false,
             dots: false,
-            fad: true,
+            fade: true,
             autoplayHoverPause: true,
             slideToScroll: 1
         });
-    }
+    };
 })();

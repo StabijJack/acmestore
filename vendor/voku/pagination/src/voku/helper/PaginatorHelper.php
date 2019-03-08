@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace voku\helper;
 
 /**
@@ -22,16 +20,16 @@ class PaginatorHelper
    *
    * @return array
    */
-  public static function reduceData(array $data, int $perPage = 10, int $page = 1): array
+  public static function reduceData(array $data, $perPage = 10, $page = 1)
   {
     // get pagination
     $paginator = new Paginator($perPage, 'page');
-    $paginator->set_total(\count($data))->set_pageIdentifierFromGet($page);
+    $paginator->set_total(count($data))->set_pageIdentifierFromGet($page);
     $minMaxArray = $paginator->get_limit_raw();
     --$minMaxArray[1];
 
     // get limit via pagination
-    $dataFiltered = [];
+    $dataFiltered = array();
     $tmpCounterMin = 0;
     $tmpCounterMax = 0;
     foreach ($data as $dataKey => $dataValue) {

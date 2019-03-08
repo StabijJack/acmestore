@@ -1,23 +1,26 @@
 {
-    "autoload": {
-        "psr-4": {
+    "autoload":{
+        "psr-4":{
             "App\\":"app"
         },
         "files": ["app/functions/helper.php"]
     },
     "require": {
-        "vlucas/phpdotenv": "^2.5",
+        "vlucas/phpdotenv": "^2.4",
         "altorouter/altorouter": "^1.2",
         "philo/laravel-blade": "^3.1",
-        "illuminate/database": "^5.7",
-        "phpmailer/phpmailer": "^6.0",
-        "voku/pagination": "^3.0",
-        "stripe/stripe-php": "^6.29"
+        "illuminate/database": "^5.4",
+        "phpmailer/phpmailer": "^5.2",
+        "voku/pagination": "^2.1",
+        "nesbot/carbon": "^1.22",
+        "stripe/stripe-php": "^5.8",
+        "guzzlehttp/guzzle": "^6.3"
     },
-    "require-dev": {
-        "filp/whoops": "^2.3"
+    "require-dev":{
+        "filp/whoops": "^2.1"
     },
     "config":{
-        "optimize-autoloader": true
+        "optimize-autoloader":true
     }
+
 }

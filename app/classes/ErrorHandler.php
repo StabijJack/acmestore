@@ -1,30 +1,30 @@
 <?php
-
 namespace App\Classes;
+
 
 class ErrorHandler
 {
     public function handleErrors($error_number, $error_message, $error_file, $error_line)
     {
-        $error = "[{$error_number}] An Error occurred in file {$error_file} on line $error_message";
+        $error = "[{$error_number}] An error occurred in file
+                    {$error_file} on line $error_line: $error_message";
+        
         $environment = getenv('APP_ENV');
-
+        
         if($environment === 'local'){
             $whoops = new \Whoops\Run;
             $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
             $whoops->register();
-        }
-        else{
+        }else{
             $data = [
                 'to' => getenv('ADMIN_EMAIL'),
-                'subject' => 'Error Mail',
-                'view' => 'errors.php',
+                'subject' => 'System Error',
+                'view' => 'errors',
                 'name' => 'Admin',
                 'body' => $error
             ];
             ErrorHandler::emailAdmin($data)->outputFriendlyError();
         }
-
     }
     public function outputFriendlyError()
     {
@@ -35,7 +35,7 @@ class ErrorHandler
     public static function emailAdmin($data)
     {
         $mail = new Mail;
-        $mail-> send($data);
+        $mail->send($data);
         return new static;
     }
 }

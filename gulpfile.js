@@ -17,7 +17,6 @@ elixir(function (mix) {
         'resources/assets');
 
     var bowerPath = 'bower/vendor';
-
     mix.scripts(
         [
             //Jquery
@@ -28,13 +27,12 @@ elixir(function (mix) {
             bowerPath + '/slick-carousel/slick/slick.min.js',
             bowerPath + '/chart.js/dist/Chart.bundle.js',
             bowerPath + '/axios/dist/axios.min.js',
-        ], 'public/js/all.js', 'resources/assets');
 
-    mix.scripts(
-        [
             'js/acme.js',
-            'js/pages/*.js',
             'js/admin/*.js',
+            'js/pages/*.js',
+
             'js/init.js'
-        ], 'public/js/ACME.js', 'resources/assets');
+
+        ], 'public/js/all.js', 'resources/assets');
 });

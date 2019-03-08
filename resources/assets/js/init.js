@@ -1,8 +1,13 @@
+
 (function () {
     'use strict';
+
     $(document).foundation();
-    $(document).ready(function (){
-        switch($("body").data("page-id")){
+
+    $(document).ready(function () {
+
+        //SWITCH PAGES
+        switch ($("body").data("page-id")){
             case 'home':
                 ACMESTORE.homeslider.initCarousel();
                 ACMESTORE.homeslider.homePageProducts();
@@ -13,12 +18,12 @@
             case 'cart':
                 ACMESTORE.product.cart();
                 break;
-            case 'adminDashboard':
-                ACMESTORE.admin.dashboard();
-                break;
             case 'adminProduct':
                 ACMESTORE.admin.changeEvent();
                 ACMESTORE.admin.delete();
+                break;
+            case 'adminDashboard':
+                ACMESTORE.admin.dashboard();
                 break;
             case 'adminCategories':
                 ACMESTORE.admin.update();
@@ -26,6 +31,8 @@
                 ACMESTORE.admin.create();
                 break;
             default:
+                //do nothing
         }
-    });
+    })
+
 })();

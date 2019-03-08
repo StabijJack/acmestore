@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Classes\CSRFToken;
-use App\classes\Request;
+use App\Classes\Redirect;
+use App\Classes\Request;
+use App\Classes\Session;
 use App\Classes\ValidateRequest;
 use App\Models\User;
-use App\Classes\Session;
-use App\Classes\Redirect;
+
 
 class AuthController extends BaseController
 {
@@ -16,84 +18,102 @@ class AuthController extends BaseController
             Redirect::to('/');
         }
     }
-
+    
     public function showRegisterForm()
     {
         return view('register');
     }
+    
     public function showLoginForm()
     {
         return view('login');
     }
+    
     public function register()
     {
-       if(Request::has('post')){
-           $request = Request::get('post');
-           if (CSRFToken::verifyCSRFToken($request->token)) {
+        if(Request::has('post')){
+            $request = Request::get('post');
+            if(CSRFToken::verifyCSRFToken($request->token)){
                 $rules = [
-                    'username' => ['required' =>true, 'maxlength' => 20,'string' => true, 'unique' => 'users'],
-                    'email' => ['required' =>true, 'email' => true, 'unique' => 'users'],
-                    'password' => ['required' =>true, 'minLength' => 6],
-                    'fullname' => ['required' =>true, 'minLength' => 6, 'maxlength' => 50],
-                    'address' => ['required' =>true, 'minLength' => 4, 'maxlength' => 500, 'mixed' =>true]
+                  'username' => ['required' => true, 'maxLength' => 20, 'string' => true, 'unique' => 'users'],
+                  'email' => ['required' => true, 'email' => true, 'unique' => 'users'],
+                  'password' => ['required' => true, 'minLength' => 6],
+                  'fullname' => ['required' => true, 'minLength' => 6, 'maxLength' => 50],
+                  'address' => ['required' => true, 'minLength' => 4, 'maxLength' => 500, 'mixed' => true]
                 ];
+                
                 $validate = new ValidateRequest;
                 $validate->abide($_POST, $rules);
-                if ($validate->hasError()) {
+                
+                if($validate->hasError()){
                     $errors = $validate->getErrorMessages();
-                    return view('register', compact('errors'));
+                    return view('register', ['errors' => $errors]);
                 }
+                
+                //insert into database
                 User::create([
-                    'username'=> $request->username,
-                    'email'=> $request->email,
-                    'fullname'=> $request->fullname,
-                    'address'=> $request->address,
-                    'role'=> 'user',
-                    'password'=> password_hash($request->password, PASSWORD_BCRYPT)
+                    'username' => $request->username,
+                    'email' => $request->email,
+                    'password' => password_hash($request->password, PASSWORD_BCRYPT),
+                    'fullname' => $request->fullname,
+                    'address' => $request->address,
+                    'role' => 'user',
                 ]);
+                
                 Request::refresh();
-                return view('register',['success'=> 'User Created please login']);
-           }
-           throw new \Exception('Token Missmatch');
-       }
-       return null;
+                return view('register', ['success' => 'Account created, please login']);
+            }
+            throw new \Exception('Token Mismatch');
+        }
+        return null;
     }
+    
     public function login()
     {
         if(Request::has('post')){
             $request = Request::get('post');
-            if (CSRFToken::verifyCSRFToken($request->token)) {
-                 $rules = [
-                     'username' => ['required' =>true],
-                     'password' => ['required' =>true],
-                 ];
-                 $validate = new ValidateRequest;
-                 $validate->abide($_POST, $rules);
-                 if ($validate->hasError()) {
-                     $errors = $validate->getErrorMessages();
-                     return view('login', compact('errors'));
-                 }
-                 $user = User::where('username', $request->username)->orWhere('email',$request->email)->first();
-                 if($user){
-                     if(!password_verify($request->password,$user->password)){
-                         return view('login', ['error'=> 'wrong password']);
-                     }
-                     else{
-                        Session::add('SESSION_USER_ID',$user->id);
-                        Session::add('SESSION_USER_NAME',$user->username);
-                        if($user->role =='admin'){
+            if(CSRFToken::verifyCSRFToken($request->token)){
+                $rules = [
+                    'username' => ['required' => true],
+                    'password' => ['required' => true],
+                ];
+            
+                $validate = new ValidateRequest;
+                $validate->abide($_POST, $rules);
+            
+                if($validate->hasError()){
+                    $errors = $validate->getErrorMessages();
+                    return view('login', ['errors' => $errors]);
+                }
+    
+                /**
+                 * Check if user exist in db
+                 */
+                $user = User::where('username', $request->username)
+                    ->orWhere('email', $request->username)->first();
+                
+                if($user){
+                    if(!password_verify($request->password, $user->password)){
+                        Session::add('error', 'Incorrect password');
+                        return view('login');
+                    }else{
+                        Session::add('SESSION_USER_ID', $user->id);
+                        Session::add('SESSION_USER_NAME', $user->username);
+                        
+                        if($user->role == 'admin'){
                             Redirect::to('/admin');
-                        }else if($user->role =='user' && Session::has('user_cart')){
+                        }else if($user->role == 'user' && Session::has('user_cart')){
                             Redirect::to('/cart');
                         }else{
                             Redirect::to('/');
                         }
                     }
-                }                    
-                Request::refresh();
-                return view('login',['error'=> 'User unknown']);
+                }else{
+                    Session::add('error', 'User not found, please try again');
+                    return view('login');
+                }
             }
-            throw new \Exception('Token Missmatch');
+            throw new \Exception('Token Mismatch');
         }
         return null;
     }
@@ -103,11 +123,13 @@ class AuthController extends BaseController
         if(isAuthenticated()){
             Session::remove('SESSION_USER_ID');
             Session::remove('SESSION_USER_NAME');
-            if (!Session::has('user_cart')) {
+            
+            if(!Session::has('user_cart')){
                 session_destroy();
                 session_regenerate_id(true);
             }
         }
         Redirect::to('/');
     }
+    
 }

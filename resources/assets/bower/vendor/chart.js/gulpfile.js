@@ -3,6 +3,7 @@ var concat = require('gulp-concat');
 var connect = require('gulp-connect');
 var eslint = require('gulp-eslint');
 var file = require('gulp-file');
+var htmlv = require('gulp-html-validator');
 var insert = require('gulp-insert');
 var replace = require('gulp-replace');
 var size = require('gulp-size');
@@ -16,17 +17,9 @@ var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var merge = require('merge-stream');
 var collapse = require('bundle-collapser/plugin');
-var yargs = require('yargs');
+var argv  = require('yargs').argv
 var path = require('path');
-var fs = require('fs');
-var htmllint = require('gulp-htmllint');
-var pkg = require('./package.json');
-
-var argv = yargs
-  .option('force-output', {default: false})
-  .option('silent-errors', {default: false})
-  .option('verbose', {default: false})
-  .argv
+var package = require('./package.json');
 
 var srcDir = './src/';
 var outDir = './dist/';
@@ -36,26 +29,21 @@ var header = "/*!\n" +
   " * http://chartjs.org/\n" +
   " * Version: {{ version }}\n" +
   " *\n" +
-  " * Copyright " + (new Date().getFullYear()) + " Chart.js Contributors\n" +
+  " * Copyright 2017 Nick Downie\n" +
   " * Released under the MIT license\n" +
   " * https://github.com/chartjs/Chart.js/blob/master/LICENSE.md\n" +
   " */\n";
-
-if (argv.verbose) {
-  util.log("Gulp running with options: " + JSON.stringify(argv, null, 2));
-}
 
 gulp.task('bower', bowerTask);
 gulp.task('build', buildTask);
 gulp.task('package', packageTask);
 gulp.task('watch', watchTask);
-gulp.task('lint', ['lint-html', 'lint-js']);
-gulp.task('lint-html', lintHtmlTask);
-gulp.task('lint-js', lintJsTask);
+gulp.task('lint', lintTask);
 gulp.task('docs', docsTask);
-gulp.task('test', ['lint', 'unittest']);
+gulp.task('test', ['lint', 'validHTML', 'unittest']);
 gulp.task('size', ['library-size', 'module-sizes']);
 gulp.task('server', serverTask);
+gulp.task('validHTML', validHTMLTask);
 gulp.task('unittest', unittestTask);
 gulp.task('library-size', librarySizeTask);
 gulp.task('module-sizes', moduleSizesTask);
@@ -69,11 +57,11 @@ gulp.task('default', ['build', 'watch']);
  */
 function bowerTask() {
   var json = JSON.stringify({
-      name: pkg.name,
-      description: pkg.description,
-      homepage: pkg.homepage,
-      license: pkg.license,
-      version: pkg.version,
+      name: package.name,
+      description: package.description,
+      homepage: package.homepage,
+      license: package.license,
+      version: package.version,
       main: outDir + "Chart.js",
       ignore: [
         '.github',
@@ -91,32 +79,16 @@ function bowerTask() {
 
 function buildTask() {
 
-  var errorHandler = function (err) {
-    if(argv.forceOutput) {
-      var browserError = 'console.error("Gulp: ' + err.toString() + '")';
-      ['Chart', 'Chart.min', 'Chart.bundle', 'Chart.bundle.min'].forEach(function(fileName) {
-        fs.writeFileSync(outDir+fileName+'.js', browserError);
-      });
-    }
-    if(argv.silentErrors) {
-      util.log(util.colors.red('[Error]'), err.toString());
-      this.emit('end');
-    } else {
-      throw err;
-    }
-  }
-
   var bundled = browserify('./src/chart.js', { standalone: 'Chart' })
     .plugin(collapse)
     .bundle()
-    .on('error', errorHandler)
     .pipe(source('Chart.bundle.js'))
     .pipe(insert.prepend(header))
-    .pipe(streamify(replace('{{ version }}', pkg.version)))
+    .pipe(streamify(replace('{{ version }}', package.version)))
     .pipe(gulp.dest(outDir))
     .pipe(streamify(uglify()))
     .pipe(insert.prepend(header))
-    .pipe(streamify(replace('{{ version }}', pkg.version)))
+    .pipe(streamify(replace('{{ version }}', package.version)))
     .pipe(streamify(concat('Chart.bundle.min.js')))
     .pipe(gulp.dest(outDir));
 
@@ -124,14 +96,13 @@ function buildTask() {
     .ignore('moment')
     .plugin(collapse)
     .bundle()
-    .on('error', errorHandler)
     .pipe(source('Chart.js'))
     .pipe(insert.prepend(header))
-    .pipe(streamify(replace('{{ version }}', pkg.version)))
+    .pipe(streamify(replace('{{ version }}', package.version)))
     .pipe(gulp.dest(outDir))
     .pipe(streamify(uglify()))
     .pipe(insert.prepend(header))
-    .pipe(streamify(replace('{{ version }}', pkg.version)))
+    .pipe(streamify(replace('{{ version }}', package.version)))
     .pipe(streamify(concat('Chart.min.js')))
     .pipe(gulp.dest(outDir));
 
@@ -154,9 +125,8 @@ function packageTask() {
   .pipe(gulp.dest(outDir));
 }
 
-function lintJsTask() {
+function lintTask() {
   var files = [
-    'samples/**/*.html',
     'samples/**/*.js',
     'src/**/*.js',
     'test/**/*.js'
@@ -178,24 +148,22 @@ function lintJsTask() {
     .pipe(eslint.failAfterError());
 }
 
-function lintHtmlTask() {
-  return gulp.src('samples/**/*.html')
-    .pipe(htmllint({
-      failOnError: true,
-    }));
-}
-
 function docsTask(done) {
   const script = require.resolve('gitbook-cli/bin/gitbook.js');
   const cmd = process.execPath;
 
   exec([cmd, script, 'install', './'].join(' ')).then(() => {
-    return exec([cmd, script, argv.watch ? 'serve' : 'build', './', './dist/docs'].join(' '));
+    return exec([cmd, script, 'build', './', './dist/docs'].join(' '));
   }).catch((err) => {
     console.error(err.stdout);
   }).then(() => {
     done();
   });
+}
+
+function validHTMLTask() {
+  return gulp.src('samples/*.html')
+    .pipe(htmlv());
 }
 
 function startTest() {

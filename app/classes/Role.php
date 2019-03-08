@@ -2,27 +2,32 @@
 
 namespace App\Classes;
 
+
 class Role
 {
-    public static function middleware($role){
+    public static function middleware($role)
+    {
         $message = '';
-        switch($role){
+        switch ($role){
             case 'admin':
-                $message ='You are not autorized to view admin panel';
+                $message = 'You are not authorized to view admin panel';
                 break;
             case 'user':
-                $message ='You are not autorized to view this page';
+                $message = 'You are not authorized to view this page';
                 break;
         }
+        
         if(isAuthenticated()){
             if(user()->role != $role){
-                Session::add('errors', $message);
+                Session::add('error', $message);
                 return false;
             }
         }else{
-            Session::add('errors', $message);
+            Session::add('error', $message);
             return false;
         }
+        
         return true;
     }
+    
 }

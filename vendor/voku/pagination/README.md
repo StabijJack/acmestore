@@ -7,6 +7,7 @@
 [![Latest Stable Version](https://poser.pugx.org/voku/pagination/v/stable)](https://packagist.org/packages/voku/pagination) 
 [![Total Downloads](https://poser.pugx.org/voku/pagination/downloads)](https://packagist.org/packages/voku/pagination) 
 [![Latest Unstable Version](https://poser.pugx.org/voku/pagination/v/unstable)](https://packagist.org/packages/voku/pagination)
+[![PHP 7 ready](http://php7ready.timesplinter.ch/voku/pagination/badge.svg)](https://travis-ci.org/voku/pagination)
 [![License](https://poser.pugx.org/voku/pagination/license)](https://packagist.org/packages/voku/pagination)
 
 Paginator
@@ -19,12 +20,12 @@ You can download it from here, or require it using [composer](https://packagist.
 ```json
 {
     "require": {
-      "voku/pagination": "3.*"
+      "voku/pagination": "2.*"
     }
 }
 ```
 
-## Install via "composer require"
+##Install via "composer require"
 ```shell
 composer require voku/pagination
 ```
@@ -40,7 +41,7 @@ composer require voku/pagination
 use voku\helper\Paginator;
 
 // include the composer-autoloader
-require_once __DIR__ . '/vendor/autoload.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 $pages = new Paginator('10','p');
 $pages->set_total('100'); //or a number of records
@@ -73,7 +74,7 @@ echo $pages->page_links('?' . 'status=' . $_GET['status'] . '&active=' . $_GET['
 use voku\helper\Paginator;
 
 // include the composer-autoloader
-require_once __DIR__ . '/vendor/autoload.php';
+require_once dirname(__DIR__) . '/vendor/composer/autoload_real.php';
 
 // create new object pass in number of pages and identifier
 $pages = new Paginator('10','p');
@@ -119,13 +120,13 @@ $data['page_links'] = $pages->page_links();
 $this->_view->render('index', $data);
 ```
 
-## API example (with Database)
+## API example
 
 ```php
 use voku\helper\Paginator;
 
 // include the composer-autoloader
-require_once __DIR__ . '/vendor/autoload.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 // create new object pass in number of pages and identifier
 $pages = new Paginator('10','p');
@@ -147,13 +148,13 @@ header('Content-Type: application/json');
 echo json_encode($pages->page_links_raw());
 ```
 
-## API example (with Array)
+... OR ...
 
 ```php
 use voku\helper\Paginator;
 
 // include the composer-autoloader
-require_once __DIR__ . '/vendor/autoload.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 $page = (int)$_GET['page'];
 $perPage = (int)$_GET['per_page'];

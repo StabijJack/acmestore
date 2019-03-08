@@ -1,38 +1,37 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\Product;
+
 use App\Classes\CSRFToken;
-use App\classes\Request;
+use App\Classes\Request;
+use App\Models\Product;
 
 class ProductController extends BaseController
 {
     public function show($id)
     {
-       $product=Product::where('id', $id)->first();
         $token = CSRFToken::_token();
-        return view('product', compact('product', 'token'));
+        $product = Product::where('id', $id)->first();
+        return view('product', compact('token', 'product'));
     }
+    
     public function get($id)
     {
-        $product = Product::where('id',$id)->with(['category','subCategory'])->first();        
-        if ($product) {
-            $similarProducts = Product::
-                where('category_id' , $product->category_id)->
-                where('id', '!=', $product->id)->
-                inRandomOrder()->
-                limit(8)->
-                get();
+        $product = Product::where('id', $id)->with(['category', 'subCategory'])->first();
+        if($product){
+            
+            $similar_products = Product::where('category_id', $product->category_id)
+                ->where('id', '!=', $id)->inRandomOrder()->limit(8)->get();
+            
             echo json_encode([
-                'product' => $product,
-                'category' => $product->category,
-                'subCategory' => $product->subCategory,
-                'similarProducts' => $similarProducts
+                'product' => $product, 'category' => $product->category,
+                'subCategory' => $product->subCategory, 'similarProducts' => $similar_products
             ]);
             exit;
         }
-        header('HRRP/1.1 422 Unprocessable Entity', true, 422);
-        echo 'product not found';
+        header('HTTP/1.1 422 Uprocessable Entity', true, 422);
+        echo 'Product not found';
         exit;
     }
+    
 }

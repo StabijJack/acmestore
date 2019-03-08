@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Classes;
-
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Database
@@ -10,8 +8,8 @@ class Database
     {
         $db = new Capsule;
         $db->addConnection([
-            'driver' => getenv('DB_DRIVER'),
-            'host' => getenv('DB_HOST'),
+           'driver' => getenv('DB_DRIVER'),
+            'host' => getenv('HOST'),
             'database' => getenv('DB_NAME'),
             'username' => getenv('DB_USERNAME'),
             'password' => getenv('DB_PASSWORD'),
@@ -19,6 +17,7 @@ class Database
             'collation' => 'utf8_unicode_ci',
             'prefix' => ''
         ]);
+        
         $db->setAsGlobal();
         $db->bootEloquent();
     }
