@@ -16,7 +16,7 @@
         </div>
         
         <section class="items" v-if="loading == false">
-            <div class="row">
+            <div class="grid-x grid-padding-x">
                 <div class="small-12">
                     <h2 v-if="fail" v-text="message"></h2>
                     <div v-else>

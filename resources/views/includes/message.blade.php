@@ -1,5 +1,5 @@
-<div class="row expanded">
-    <div class="column medium-11">
+<div class="grid-x grid-padding-x expanded">
+    <div class="cell medium-11">
         @if((isset($errors) && count($errors)) || \App\Classes\Session::has('error'))
             <div class="callout alert" data-closable>
                 @if(\App\Classes\Session::has('error'))

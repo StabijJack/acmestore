@@ -4,16 +4,16 @@
 
 @section('content')
 <div class="category admin_shared">
-    <div class="row expanded">
-        <div class="column medium-11">
+    <div class="grid-x grid-padding-x expanded">
+        <div class="cell medium-11">
             <h2>Product Categories</h2> <hr />
         </div>
     </div>
     
     @include('includes.message')
     
-    <div class="row expanded">
-        <div class="small-12 medium-6 column">
+    <div class="grid-x grid-padding-x expanded">
+        <div class="small-12 medium-6 cell">
             <form action="" method="post">
                 <div class="input-group">
                     <input type="text" class="input-group-field" placeholder="Search by name">
@@ -24,7 +24,7 @@
             </form>
         </div>
 
-        <div class="small-12 medium-5 end column">
+        <div class="small-12 medium-5 end cell">
             <form action="/admin/product/categories" method="post">
                 <div class="input-group">
                     <input type="text" class="input-group-field" name="name"
@@ -38,8 +38,8 @@
         </div>
     </div>
         
-    <div class="row expanded">
-        <div class="small-12 medium-11 column">
+    <div class="grid-x grid-padding-x expanded">
+        <div class="small-12 medium-11 cell">
             @if(count($categories))
                 <table class="hover unstriped" data-form="deleteForm">
                     <thead>
@@ -134,14 +134,14 @@
 </div>
 
 <div class="subcategory admin_shared">
-    <div class="row expanded">
-            <div class="column medium-11">
+    <div class="grid-x grid-padding-x expanded">
+            <div class="cell medium-11">
                 <h2>Subcategories</h2> <hr />
             </div>
     </div>
     
-    <div class="row expanded">
-        <div class="small-12 medium-11 column">
+    <div class="grid-x grid-padding-x expanded">
+        <div class="small-12 medium-11 cell">
             @if(count($subcategories))
                 <table class="hover unstriped" data-form="deleteForm">
                     <thead>

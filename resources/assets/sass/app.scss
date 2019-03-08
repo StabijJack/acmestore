@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Fjalla+One|Average');
 
-@import "../bower/vendor/foundation-sites/assets/foundation";
+@import "~foundation-sites/assets/foundation";
 
 @import "global";
 @import "admin/nav";
@@ -11,8 +11,8 @@
 @import "pages/auth";
 @import "pages/cart";
 
-@import "../bower/vendor/motion-ui/src/motion-ui";
-@include motion-ui-transitions
-@include motion-ui-animations
+@import "~motion-ui/src/motion-ui";
+@include motion-ui-transitions;
+@include motion-ui-animations;
 
-
+@import "~slick-carousel/slick/slick.css"
